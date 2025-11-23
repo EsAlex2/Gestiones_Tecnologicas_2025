@@ -1,0 +1,109 @@
+@page { margin: 50px; }
+        body { 
+            font-family: DejaVu Sans, sans-serif; 
+            line-height: 1.4;
+            color: #333;
+        }
+        .header { 
+            border-bottom: 3px solid #1e40af;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        .logo { 
+            font-size: 24px; 
+            font-weight: bold; 
+            color: #1e40af;
+            margin-bottom: 5px;
+        }
+        .company { 
+            font-size: 18px; 
+            color: #64748b;
+            margin-bottom: 20px;
+        }
+        .report-title { 
+            font-size: 28px; 
+            font-weight: bold; 
+            color: #0f172a;
+            margin-bottom: 10px;
+        }
+        .report-date { 
+            color: #64748b; 
+            margin-bottom: 30px;
+        }
+        .user-info {
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border-left: 4px solid #1e40af;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        .stat-card {
+            background: #1e40af;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .stat-label {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th {
+            background: #1e40af;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+        td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        tr:nth-child(even) {
+            background: #f8fafc;
+        }
+        .total-row {
+            background: #0f172a !important;
+            color: white;
+            font-weight: bold;
+        }
+        .charts-section {
+            margin: 40px 0;
+        }
+        .chart-container {
+            margin: 20px 0;
+            page-break-inside: avoid;
+        }
+        .chart-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #1e40af;
+        }
+        .footer {
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid #e2e8f0;
+            color: #64748b;
+            font-size: 12px;
+            text-align: center;
+        }
+        .page-break {
+            page-break-before: always;
+        }
