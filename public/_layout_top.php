@@ -40,7 +40,7 @@ $page_title = $page_titles[$current_page] ?? 'Sistema de Gestión';
     <div class="container">
       <header class="header">
         <div class="brand">
-        <div class="logo">GT</div>
+          <div class="logo">GT</div>
           <div class="brand-text">
             <h1>Gestiones Tecnológicas</h1>
             <p>Sistema de Gestión Empresarial</p>
@@ -78,15 +78,7 @@ $page_title = $page_titles[$current_page] ?? 'Sistema de Gestión';
             </a>
 
             <?php if (is_admin() || is_operator()): ?>
-              <a class="button ghost" href="users.php">
-                <span>Usuarios</span>
-              </a>
-            <?php endif; ?>
-
-            <?php if (is_admin()): ?>
-              <a class="button ghost" href="business_clients.php">
-                <span>Clientes Empresariales</span>
-              </a>
+              <a class="button ghost" href="users.php"><span>Usuarios</span></a>
             <?php endif; ?>
 
             <?php if (is_admin()): ?>
@@ -95,6 +87,7 @@ $page_title = $page_titles[$current_page] ?? 'Sistema de Gestión';
                   <span>Configuración</span> ▼
                 </button>
                 <div class="dropdown-menu">
+                  <a class="dropdown-item" href="business_clients.php">Clientes Empresariales</a>
                   <a href="categories.php" class="dropdown-item">Categorías</a>
                   <a href="suppliers.php" class="dropdown-item">Proveedores</a>
                   <div class="dropdown-divider"></div>

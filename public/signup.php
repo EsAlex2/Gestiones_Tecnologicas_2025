@@ -64,8 +64,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <p style="color:var(--muted); margin-bottom:14px;">Crea y configura tu cuenta para Gestionar tu inventario.</p>
     <form method="post" data-validate>
       <div class="form-grid">
-        <input class="input" type="text" name="first_name" placeholder="Nombres" required maxlength="20">
-        <input class="input" type="text" name="last_name" placeholder="Apellidos" required maxlength="20">
+        <input class="input" type="text" name="first_name" placeholder="Nombres" required maxlength="30">
+        <input class="input" type="text" name="last_name" placeholder="Apellidos" required maxlength="30">
         <input class="input" type="text" name="username" placeholder="Username" required maxlength="15">
         <input class="input" type="tel" name="phone" placeholder="Teléfono móvil" required maxlength="11">
         <input class="input" type="email" name="email" placeholder="Correo" required>

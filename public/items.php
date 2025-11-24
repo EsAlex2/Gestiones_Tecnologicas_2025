@@ -163,7 +163,7 @@ if (is_admin() || is_operator()) {
 
                                     <input class="input" type="text" name="sku" value="<?= h($it['sku']) ?>" required>
                                     <input class="input" type="text" name="name" value="<?= h($it['name']) ?>" required>
-                                    <input class="input" type="number" name="quantity" min="0" value="<?= h($it['quantity']) ?>">
+                                    
                                     <input class="input" type="number" step="0.01" name="unit_price" min="0" value="<?= h($it['unit_price']) ?>">
 
                                     <select class="input" name="category_id">

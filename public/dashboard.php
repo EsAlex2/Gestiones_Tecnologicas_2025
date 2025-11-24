@@ -211,7 +211,7 @@ if (is_admin() || is_operator()) {
   ?>
 
   <?php if ($business_client): ?>
-    <div class="card" style="margin-bottom:15px; background: var(--primary-light);">
+    <div class="card" style="margin-bottom:15px; background: #8db0e7ff;">
       <h3>📊 Información del Cliente Empresarial</h3>
       <div class="form-grid three">
         <div>
