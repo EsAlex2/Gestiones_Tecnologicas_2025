@@ -1,0 +1,36 @@
+<!-- Guardar como: assets/images/logo.svg -->
+<svg width="200" height="80" viewBox="0 0 200 80" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <linearGradient id="gearGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#1e40af"/>
+            <stop offset="100%" stop-color="#3b82f6"/>
+        </linearGradient>
+    </defs>
+    
+    <!-- Engranaje -->
+    <g transform="translate(40, 40)">
+        <!-- Engranaje base -->
+        <circle cx="0" cy="0" r="25" fill="url(#gearGradient)"/>
+        <circle cx="0" cy="0" r="15" fill="white"/>
+        
+        <!-- Dientes del engranaje -->
+        <rect x="-4" y="-30" width="8" height="12" rx="2" fill="#1e40af"/>
+        <rect x="-4" y="18" width="8" height="12" rx="2" fill="#1e40af"/>
+        <rect x="-30" y="-4" width="12" height="8" rx="2" fill="#1e40af"/>
+        <rect x="18" y="-4" width="12" height="8" rx="2" fill="#1e40af"/>
+        
+        <!-- Dientes diagonales -->
+        <rect x="-21" y="-21" width="8" height="12" rx="2" fill="#1e40af" transform="rotate(45)"/>
+        <rect x="13" y="-21" width="8" height="12" rx="2" fill="#1e40af" transform="rotate(135)"/>
+        <rect x="-21" y="13" width="8" height="12" rx="2" fill="#1e40af" transform="rotate(-45)"/>
+        <rect x="13" y="13" width="8" height="12" rx="2" fill="#1e40af" transform="rotate(-135)"/>
+        
+        <!-- Líneas de circuito -->
+        <rect x="18" y="-3" width="25" height="4" rx="2" fill="#10b981" transform="rotate(45 18 -3)"/>
+        <rect x="18" y="3" width="20" height="4" rx="2" fill="#10b981" transform="rotate(-45 18 3)"/>
+    </g>
+    
+    <!-- Texto -->
+    <text x="90" y="30" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#1e40af">Gestiones</text>
+    <text x="90" y="50" font-family="Arial, sans-serif" font-size="14" fill="#64748b">Tecnológicas</text>
+</svg>

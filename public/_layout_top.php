@@ -40,7 +40,7 @@ $page_title = $page_titles[$current_page] ?? 'Sistema de Gestión';
     <div class="container">
       <header class="header">
         <div class="brand">
-          <div class="logo">GT</div>
+        <div class="logo">GT</div>
           <div class="brand-text">
             <h1>Gestiones Tecnológicas</h1>
             <p>Sistema de Gestión Empresarial</p>

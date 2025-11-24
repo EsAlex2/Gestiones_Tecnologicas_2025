@@ -341,7 +341,7 @@ $html .= '
     </table>
 
     <div class="footer">
-        <p>Reporte generado automáticamente por el Sistema de Gestión Gestiones Tecnológicas</p>
+        <p>Reporte generado automáticamente por el Sistema de Gestiones Tecnológicas</p>
         <p>© ' . date('Y') . ' Gestiones Tecnológicas - Todos los derechos reservados</p>
     </div>
 </body>
