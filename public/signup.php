@@ -40,7 +40,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     redirect_with("/signup.php", "Email o username ya registrado", "danger");
   }
 
-  $hash = password_hash($password, PASSWORD_DEFAULT);
+
+  $hash = password_hash($password, PASSWORD_ARGON2ID);
   $ins = $pdo->prepare("INSERT INTO users (username, first_name, last_name, phone, email, password_hash, role) VALUES (?,?,?,?,?,?,?)");
   $ins->execute([$username, $first, $last, $phone, $email, $hash, $role]);
   
