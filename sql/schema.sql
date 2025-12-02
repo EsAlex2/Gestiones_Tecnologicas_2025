@@ -1,6 +1,6 @@
 -- sql/schema.sql (v3)
-CREATE DATABASE IF NOT EXISTS inventario_v1 CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE inventario_v1;
+CREATE DATABASE IF NOT EXISTS bd_gestiones CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE bd_gestiones;
 
 -- Usuarios (con rol, username y teléfono)
 CREATE TABLE IF NOT EXISTS users (
@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS users (
   phone VARCHAR(30),
   email VARCHAR(150) NOT NULL UNIQUE,
   password_hash VARCHAR(255) NOT NULL,
-  role ENUM('admin','user') NOT NULL DEFAULT 'user',
+  role ENUM('admin','operator','client') NOT NULL DEFAULT 'client',
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -93,15 +93,11 @@ CREATE TABLE IF NOT EXISTS movements (
 );
 
 -- Actualizar la tabla users para incluir el campo role
-ALTER TABLE users ADD COLUMN role ENUM('admin', 'operator', 'client') DEFAULT 'client';
+--ALTER TABLE users ADD COLUMN role ENUM('admin', 'operator', 'client') DEFAULT 'client';
 
 -- Establecer el primer usuario como administrador (ajusta el ID según tu caso)
 UPDATE users SET role = 'admin' WHERE id = 1;
 
--- Crear tabla de logs de actividades si no existe
-CREATE TABLE IF NOT EXISTS activity_logs (
-    id INT PRIMARY
-);
 
 -- Asegurarse de que la tabla users tiene el campo role
 ALTER TABLE users 

@@ -256,7 +256,7 @@ if (is_admin() || is_operator()) {
     </div>
     <div class="stat-card">
       <div class="stat-label">Valor Total</div>
-      <div class="stat-value">$<?= number_format($sumVal, 2) ?></div>
+      <div class="stat-value">Bs <?= number_format($sumVal, 2) ?></div>
       <div class="stat-change positive">
         <span>Valoración</span>
       </div>

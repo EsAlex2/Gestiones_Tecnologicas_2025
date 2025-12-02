@@ -54,8 +54,8 @@ $page_title = $page_titles[$current_page] ?? 'Sistema de Gestión';
             </button>
 
             <span class="badge <?=
-                                is_admin() ? 'primary' : (is_operator() ? 'info' : 'success')
-                                ?>">
+              is_admin() ? 'primary' : (is_operator() ? 'info' : 'success')
+              ?>">
               <?= get_user_role_name($_SESSION['user_role']) ?>
             </span>
           </div>
@@ -77,9 +77,7 @@ $page_title = $page_titles[$current_page] ?? 'Sistema de Gestión';
               <span>Movimientos</span>
             </a>
 
-            <?php if (is_admin() || is_operator()): ?>
-              <a class="button ghost" href="users.php"><span>Usuarios</span></a>
-            <?php endif; ?>
+
 
             <?php if (is_admin()): ?>
               <div class="dropdown">
@@ -88,6 +86,10 @@ $page_title = $page_titles[$current_page] ?? 'Sistema de Gestión';
                 </button>
                 <div class="dropdown-menu">
                   <a class="dropdown-item" href="business_clients.php">Clientes Empresariales</a>
+                  <a href="client_selector.php" class="dropdown-item">Selector de Clientes</a>
+                  <?php if (is_admin() || is_operator()): ?>
+                    <a class="dropdown-item" href="users.php"><span>Usuarios</span></a>
+                  <?php endif; ?>
                   <a href="categories.php" class="dropdown-item">Categorías</a>
                   <a href="suppliers.php" class="dropdown-item">Proveedores</a>
                   <div class="dropdown-divider"></div>
