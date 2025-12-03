@@ -44,29 +44,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <?php require_once __DIR__ . '/_layout_bottom.php'; ?>
 
 <script>
-
   // Enfocar el primer campo del formulario al cargar la página
   document.addEventListener('DOMContentLoaded', function() {
     document.querySelector('#loginForm input[name="identifier"]').focus();
   });
 
-  //hashear la contraseña al enviarla en index.php
-  document.getElementById('loginForm').addEventListener('submit', function(event) {
-    const passwordInput = this.querySelector('input[name="password"]');
+  
+  //hash contraseña en el formulario index.php pero no en el servidor
+  document.querySelector('#loginForm').addEventListener('submit', function(e) {
+    e.preventDefault(); // Evitar el envío del formulario por defecto
+    const form = e.target;
+    const passwordInput = form.querySelector('input[name="password"]');
     const password = passwordInput.value;
 
-
-    const encoder = new TextEncoder();
-    const data = encoder.encode(password);
-    crypto.subtle.digest('SHA-256', data).then(hashBuffer => {
+    // Hashear la contraseña usando SHA-256
+    crypto.subtle.digest('SHA-256', new TextEncoder().encode(password)).then(hashBuffer => {
+      // Convertir el ArrayBuffer a una cadena hexadecimal
       const hashArray = Array.from(new Uint8Array(hashBuffer));
       const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-      passwordInput.value = hashHex; // Reemplaza la contraseña con su hash
-      this.submit(); // Envía el formulario
+
+      // Reemplazar el valor del campo de contraseña con el hash
+      passwordInput.value = hashHex;
+
+      // Enviar el formulario
+      form.submit();
     });
-
-    event.preventDefault(); // Evita el envío inmediato del formulario
   });
-
+  
 
 </script>
+
+

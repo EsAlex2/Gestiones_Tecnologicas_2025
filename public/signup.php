@@ -164,3 +164,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </script>
 
 <?php require_once __DIR__ . '/_layout_bottom.php'; ?>
+
+<script>
+  // Enfocar el primer campo del formulario al cargar la página
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelector('.auth-card input[name="first_name"]').focus();
+  });
+
+  //hash contraseña en el formulario signup.php pero no en el servidor
+  document.querySelector('form[data-validate]').addEventListener('submit', function(e)
+  {
+    e.preventDefault(); // Evitar el envío del formulario por defecto
+    const form = e.target;
+    const passwordInput = form.querySelector('input[name="password"]');
+    const password = passwordInput.value;
+
+    // Hashear la contraseña usando SHA-256
+    crypto.subtle.digest('SHA-256', new TextEncoder().encode(password)).then(hashBuffer => {
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+
+      // Reemplazar el valor del campo de contraseña con el hash
+      passwordInput.value = hashHex;
+
+      // Enviar el formulario
+      form.submit();
+    });
+  });
+
+
+
+</script>
