@@ -128,7 +128,7 @@ $categories = $pdo->query("SELECT c.*,
                         <td>
                             <strong><?= h($cat['name']) ?></strong>
                         </td>
-                        <td><?= h($cat['descripcion'] ?: '-') ?></td>
+                        <td><?= h($cat['description'] ?: '-') ?></td>
                         <td>
                             <span class="badge <?= $cat['items_count'] > 0 ? 'info' : 'secondary' ?>">
                                 <?= h($cat['items_count']) ?> ítem(s)
