@@ -1,4 +1,4 @@
--- sql/schema.sql (v3)
+-- sql/schema.sql
 CREATE DATABASE IF NOT EXISTS bd_gestiones CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 USE bd_gestiones;
 
@@ -95,7 +95,7 @@ CREATE TABLE IF NOT EXISTS movements (
 -- Actualizar la tabla users para incluir el campo role
 --ALTER TABLE users ADD COLUMN role ENUM('admin', 'operator', 'client') DEFAULT 'client';
 
--- Establecer el primer usuario como administrador (ajusta el ID según tu caso)
+-- Establecer el primer usuario como administrador
 UPDATE users SET role = 'admin' WHERE id = 1;
 
 
@@ -103,7 +103,7 @@ UPDATE users SET role = 'admin' WHERE id = 1;
 ALTER TABLE users 
 ADD COLUMN IF NOT EXISTS role ENUM('admin', 'operator', 'client') DEFAULT 'client';
 
--- Actualizar usuarios existentes (ajusta según tus necesidades)
+-- Actualizar usuarios existentes
 UPDATE users SET role = 'admin' WHERE id = 1; 
 -- Primer usuario como admin
 -- UPDATE users SET role = 'operator' WHERE id IN (2,3); -- Otros usuarios como operadores
@@ -151,7 +151,7 @@ INSERT IGNORE INTO suppliers (name, contact, phone, email, address) VALUES
 ('Importaciones Elite', 'Carlos Rodríguez', '+1-234-567-8902', 'info@eliteimports.com', 'Plaza Empresarial 789, Centro'),
 ('Suministros Rápidos', 'Ana Martínez', '+1-234-567-8903', 'pedidos@suministrosrapidos.com', 'Boulevard Industrial 321, Parque Industrial');
 
--- Crear índices para mejor performance
+-- índices 
 CREATE INDEX IF NOT EXISTS idx_categories_name ON categories(name);
 CREATE INDEX IF NOT EXISTS idx_suppliers_name ON suppliers(name);
 
