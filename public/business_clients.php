@@ -281,7 +281,7 @@ $business_clients = $pdo->query("
                     <div class="input-group">
                         <label class="input-label">Identificador Empresarial *</label>
                         <input class="input" type="text" name="business_id" placeholder="RUC, NIT, etc." required
-                            maxlength="50">
+                            maxlength="25">
                     </div>
                     <div class="input-group">
                         <label class="input-label">Nombre de la Empresa *</label>
@@ -473,7 +473,18 @@ $business_clients = $pdo->query("
 
     $(document).ready(function () {
         // Validaciones para los campos de texto
-        $('input[name="personal_first_name"], input[name="personal_last_name"]').on('input', function () {
+        $('input[name="business_id"]').on('input', function () {
+            var value = $(this).val();
+            var cleanValue = value.replace(/[^a-zA-Z0-9\s]/g, '');
+            if (value !== cleanValue) {
+                $(this).val(cleanValue);
+            }
+        });
+    });
+
+    $(document).ready(function () {
+        // Validaciones para los campos de texto
+        $('input[name="personal_first_name"], input[name="personal_last_name"], input[name="business_name"]').on('input', function () {
             var value = $(this).val();
             var cleanValue = value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '');
             if (value !== cleanValue) {
@@ -493,6 +504,29 @@ $business_clients = $pdo->query("
             }
         });
     });
+
+    $(document).ready(function () {
+        // Validaciones para los campos de texto
+        $('input[name="business_position"]').on('input', function () {
+            var value = $(this).val();
+            var cleanValue = value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '');
+            if (value !== cleanValue) {
+                $(this).val(cleanValue);
+            }
+        });
+    });
+
+    $(document).ready(function () {
+        // Validaciones para los campos de texto
+        $('textarea[name="business_address"]').on('input', function () {
+            var value = $(this).val();
+            var cleanValue = value.replace(/[^a-zA-Z0-9áéíóúÁÉÍÓÚñÑ#\-\.,\s]/g, '');
+            if (value !== cleanValue) {
+                $(this).val(cleanValue);
+            }
+        });
+    });
+
 
 
     $(document).ready(function () {
