@@ -351,7 +351,7 @@ if (is_admin() || is_operator()) {
       data: {
         labels: <?= json_encode($catLabels) ?>,
         datasets: [{
-          label: 'Valor ($)',
+          label: 'Valor (Bs)',
           data: <?= json_encode($catValues) ?>,
           backgroundColor: Object.values(chartColors),
           borderColor: Object.values(borderColors),
@@ -367,7 +367,7 @@ if (is_admin() || is_operator()) {
           tooltip: {
             callbacks: {
               label: function(context) {
-                return `$${context.raw.toLocaleString('es-ES', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+                return `Bs ${context.raw.toLocaleString('es-ES', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
               }
             }
           }
@@ -377,7 +377,7 @@ if (is_admin() || is_operator()) {
             beginAtZero: true,
             ticks: {
               callback: function(value) {
-                return '$' + value.toLocaleString();
+                return 'Bs ' + value.toLocaleString();
               }
             }
           }
@@ -454,7 +454,7 @@ if (is_admin() || is_operator()) {
       data: {
         labels: <?= json_encode($supplierValueLabels) ?>,
         datasets: [{
-          label: 'Valor Total ($)',
+          label: 'Valor Total (Bs)',
           data: <?= json_encode($supplierValueValues) ?>,
           backgroundColor: chartColors.success,
           borderColor: borderColors.success,
@@ -470,7 +470,7 @@ if (is_admin() || is_operator()) {
           tooltip: {
             callbacks: {
               label: function(context) {
-                return `$${context.raw.toLocaleString('es-ES', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+                return `Bs ${context.raw.toLocaleString('es-ES', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
               }
             }
           }
@@ -480,7 +480,7 @@ if (is_admin() || is_operator()) {
             beginAtZero: true,
             ticks: {
               callback: function(value) {
-                return '$' + value.toLocaleString();
+                return 'Bs ' + value.toLocaleString();
               }
             }
           }
