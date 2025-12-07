@@ -475,7 +475,7 @@ $business_clients = $pdo->query("
         // Validaciones para los campos de texto
         $('input[name="business_id"]').on('input', function () {
             var value = $(this).val();
-            var cleanValue = value.replace(/[^a-zA-Z0-9\s]/g, '');
+            var cleanValue = value.replace(/[^a-zA-Z0-9-\s]/g, '');
             if (value !== cleanValue) {
                 $(this).val(cleanValue);
             }
