@@ -265,3 +265,7 @@ function hidePasswordForm(userId) {
 </script>
 
 <?php require_once __DIR__ . '/_layout_bottom.php'; ?>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="/assets/js/validate.js"></script>
+

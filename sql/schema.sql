@@ -1,6 +1,6 @@
 -- sql/schema.sql
-CREATE DATABASE IF NOT EXISTS bd_gestiones CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE bd_gestiones;
+CREATE DATABASE IF NOT EXISTS inventario_v1 CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE inventario_v1;
 
 -- Usuarios (con rol, username y teléfono)
 CREATE TABLE IF NOT EXISTS users (
@@ -92,16 +92,14 @@ CREATE TABLE IF NOT EXISTS movements (
   FOREIGN KEY (client_id) REFERENCES clients(id) ON DELETE SET NULL
 );
 
--- Actualizar la tabla users para incluir el campo role
---ALTER TABLE users ADD COLUMN role ENUM('admin', 'operator', 'client') DEFAULT 'client';
+
 
 -- Establecer el primer usuario como administrador
 UPDATE users SET role = 'admin' WHERE id = 1;
 
 
 -- Asegurarse de que la tabla users tiene el campo role
-ALTER TABLE users 
-ADD COLUMN IF NOT EXISTS role ENUM('admin', 'operator', 'client') DEFAULT 'client';
+
 
 -- Actualizar usuarios existentes
 UPDATE users SET role = 'admin' WHERE id = 1; 
