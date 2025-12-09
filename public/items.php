@@ -151,8 +151,8 @@ if (is_admin() || is_operator()) {
                         <td><?= h($it['category'] ?? '-') ?></td>
                         <td><?= h($it['supplier'] ?? '-') ?></td>
                         <td><?= h($it['quantity']) ?></td>
-                        <td>$<?= number_format($it['unit_price'], 2) ?></td>
-                        <td>$<?= number_format($it['quantity'] * $it['unit_price'], 2) ?></td>
+                        <td style="font-size: 0.9em;">Bs <?= number_format($it['unit_price'], 2) ?></td>
+                        <td style="font-size: 0.9em;">Bs <?= number_format($it['quantity'] * $it['unit_price'], 2) ?></td>
                         <td>
                             <details>
                                 <summary class="button ghost small">Editar</summary>

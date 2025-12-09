@@ -225,3 +225,84 @@ $suppliers = $pdo->query("SELECT s.*,
 </div>
 
 <?php require_once __DIR__ . '/_layout_bottom.php'; ?>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        // Validaciones para los campos de email
+        $('input[name="email"]').on('input', function () {
+            var value = $(this).val();
+            var cleanValue = value.replace(/[^@.a-zA-ZáéíóúÁÉÍÓÚñÑ0-9\s]/g, '');
+            if (value !== cleanValue) {
+                $(this).val(cleanValue);
+            }
+        });
+
+        //validaciones para correos, que solo sean correos gmail
+        $('input[name="email"]').after('<div class="error-message" style="display:none; color:#ff3860; font-size:12px;">Solo se permiten correos @gmail.com</div>');
+        $('form[data-validate]').on('submit', function (e) {
+            var email = $('input[name="email"]').val().trim();
+            var errorMessage = $('.error-message');
+            if (!email.endsWith('@gmail.com')) {
+                e.preventDefault();
+                errorMessage.show();
+                $('input[name="email"]').focus().addClass('error');
+                return false;
+            }
+            errorMessage.hide();
+            $('input[name="email"]').removeClass('error');
+        });
+        $('input[name="email"]').on('input', function () {
+            var email = $(this).val().trim();
+            var errorMessage = $('.error-message');
+            if (email !== '' && !email.endsWith('@gmail.com')) {
+                $(this).addClass('error');
+                errorMessage.show();
+            } else {
+                $(this).removeClass('error');
+                errorMessage.hide();
+            }
+        });
+
+        // Validaciones para los campos de texto
+        $('input[name="name"]').on('input', function () {
+            var value = $(this).val();
+            var cleanValue = value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '');
+            if (value !== cleanValue) {
+                $(this).val(cleanValue);
+            }
+        });
+
+        // Validaciones para los campos de teléfono
+        $('input[name="phone"]').on('input', function () {
+            var value = $(this).val();
+            var cleanValue = value.replace(/[^0-9\s]/g, '');
+            if (value !== cleanValue) {
+                $(this).val(cleanValue);
+            }
+        });
+
+        //valdidaciones para el campo de contacto
+        $('input[name="contact"]').on('input', function () {
+            var value = $(this).val();
+            var cleanValue = value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '');
+            if (value !== cleanValue) {
+                $(this).val(cleanValue);
+            }
+        });
+
+        //validaciones para el campo de direcciones
+        $('textarea[name="address"]').on('input', function () {
+            var value = $(this).val();
+            var cleanValue = value.replace(/[^a-zA-Z0-9áéíóúÁÉÍÓÚñÑ#\-\s.,]/g, '');
+            if (value !== cleanValue) {
+                $(this).val(cleanValue);
+            }
+        });
+
+
+    });
+
+
+</script>

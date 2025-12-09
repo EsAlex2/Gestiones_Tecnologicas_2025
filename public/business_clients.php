@@ -555,5 +555,13 @@ $business_clients = $pdo->query("
                 errorMessage.hide();
             }
         });
+
+        $('input[name="personal_email"], input[name="business_email"]').on('input', function () {
+            var value = $(this).val();
+            var cleanValue = value.replace(/[^@.a-zA-ZáéíóúÁÉÍÓÚñÑ0-9\s]/g, '');
+            if (value !== cleanValue) {
+                $(this).val(cleanValue);
+            }
+        });
     });
 </script>

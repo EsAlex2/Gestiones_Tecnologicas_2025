@@ -139,7 +139,7 @@ $users = $pdo->query($query)->fetchAll();
       <input class="input" type="text" name="username" placeholder="Username" required>
       <input class="input" type="tel" name="phone" placeholder="Teléfono">
       <input class="input" type="email" name="email" placeholder="Correo" required>
-      <input class="input" type="password" name="password" placeholder="Contraseña" required minlength="8">
+      <input class="input" type="password" name="password" placeholder="Contraseña" required minlength="8" maxlength="16">
     </div>
     <div class="form-grid two" style="margin-top:8px;">
       <select class="input" name="role" required>
@@ -265,3 +265,83 @@ function hidePasswordForm(userId) {
 </script>
 
 <?php require_once __DIR__ . '/_layout_bottom.php'; ?>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+
+    $(document).ready(function () {
+
+      //validaciones para nombres y Apellidos para la creacion y edicion de usuarios
+      $('input[name="first_name"], input[name="last_name"]').on('input', function () {
+          var value = $(this).val();
+          var cleanValue = value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '');
+          if (value !== cleanValue) {
+              $(this).val(cleanValue);
+          }
+      });
+
+      //validaciones para el campo de telefono para la creacion y edicion de usuarios
+      $('input[name="phone"]').on('input', function () {
+          var value = $(this).val();
+          var cleanValue = value.replace(/[^0-9\s]/g, '');
+          if (value !== cleanValue) {
+              $(this).val(cleanValue);
+          }
+      });
+
+      //validaciones para el campo de username para la creacion y edicion de usuarios
+      $('input[name="username"]').on('input', function () {
+          var value = $(this).val();
+          var cleanValue = value.replace(/[^a-zA-Z0-9_.-]/g, '');
+          if (value !== cleanValue) {
+              $(this).val(cleanValue);
+          }
+      });
+
+      //validaciones para el campo de email para la creacion y edicion de usuarios
+      // Validaciones para los campos de email
+        $('input[name="email"]').on('input', function () {
+            var value = $(this).val();
+            var cleanValue = value.replace(/[^@.a-zA-ZáéíóúÁÉÍÓÚñÑ0-9\s]/g, '');
+            if (value !== cleanValue) {
+                $(this).val(cleanValue);
+            }
+        });
+
+        //validaciones para correos, que solo sean correos gmail
+        $('input[name="email"]').after('<div class="error-message" style="display:none; color:#ff3860; font-size:12px;">Solo se permiten correos @gmail.com</div>');
+        $('form[data-validate]').on('submit', function (e) {
+            var email = $('input[name="email"]').val().trim();
+            var errorMessage = $('.error-message');
+            if (!email.endsWith('@gmail.com')) {
+                e.preventDefault();
+                errorMessage.show();
+                $('input[name="email"]').focus().addClass('error');
+                return false;
+            }
+            errorMessage.hide();
+            $('input[name="email"]').removeClass('error');
+        });
+        $('input[name="email"]').on('input', function () {
+            var email = $(this).val().trim();
+            var errorMessage = $('.error-message');
+            if (email !== '' && !email.endsWith('@gmail.com')) {
+                $(this).addClass('error');
+                errorMessage.show();
+            } else {
+                $(this).removeClass('error');
+                errorMessage.hide();
+            }
+        });
+
+
+
+
+
+
+    });
+
+
+
+</script>
