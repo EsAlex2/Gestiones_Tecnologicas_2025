@@ -134,12 +134,21 @@ $users = $pdo->query($query)->fetchAll();
     <h3>Crear Nuevo Usuario</h3>
     <input type="hidden" name="action" value="create_user">
     <div class="form-grid two">
+<<<<<<< HEAD
       <input class="input" type="text" name="first_name" placeholder="Nombres" required>
       <input class="input" type="text" name="last_name" placeholder="Apellidos" required>
       <input class="input" type="text" name="username" placeholder="Username" required>
       <input class="input" type="tel" name="phone" placeholder="Teléfono">
       <input class="input" type="email" name="email" placeholder="Correo" required>
       <input class="input" type="password" name="password" placeholder="Contraseña" required minlength="8" maxlength="16">
+=======
+      <input class="input" type="text" name="first_name" placeholder="Nombres" required maxlength="30">
+      <input class="input" type="text" name="last_name" placeholder="Apellidos" required maxlength="30">
+      <input class="input" type="text" name="username" placeholder="Username" required maxlength="15">
+      <input class="input" type="tel" name="phone" placeholder="Teléfono" required maxlength="11">
+      <input class="input" type="email" name="email" placeholder="Correo" required maxlength="30">
+      <input class="input" type="password" name="password" placeholder="Contraseña" required maxlength="15">
+>>>>>>> 03687b8d874134f58e13c57f532fde7c6379d3a2
     </div>
     <div class="form-grid two" style="margin-top:8px;">
       <select class="input" name="role" required>
@@ -267,6 +276,7 @@ function hidePasswordForm(userId) {
 <?php require_once __DIR__ . '/_layout_bottom.php'; ?>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<<<<<<< HEAD
 
 <script>
 
@@ -304,10 +314,20 @@ function hidePasswordForm(userId) {
         $('input[name="email"]').on('input', function () {
             var value = $(this).val();
             var cleanValue = value.replace(/[^@.a-zA-ZáéíóúÁÉÍÓÚñÑ0-9\s]/g, '');
+=======
+<script>
+
+  
+    $(document).ready(function() {
+        $('input[name="first_name"], input[name="last_name"]').on('input', function () {
+            var value = $(this).val();
+            var cleanValue = value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '');
+>>>>>>> 03687b8d874134f58e13c57f532fde7c6379d3a2
             if (value !== cleanValue) {
                 $(this).val(cleanValue);
             }
         });
+<<<<<<< HEAD
 
         //validaciones para correos, que solo sean correos gmail
         $('input[name="email"]').after('<div class="error-message" style="display:none; color:#ff3860; font-size:12px;">Solo se permiten correos @gmail.com</div>');
@@ -345,3 +365,32 @@ function hidePasswordForm(userId) {
 
 
 </script>
+=======
+    })
+
+    $(document).ready(function() {
+        $('input[name="username"]').on('input', function () {
+            var value = $(this).val();
+            var cleanValue = value.replace(/[^a-zA-Z0-9_.-]/g, '');
+            if (value !== cleanValue) {
+                $(this).val(cleanValue);
+            }
+        });
+    })
+
+    $(document).ready(function() {
+        $('input[name="phone"]').on('input', function () {
+            var value = $(this).val();
+            var cleanValue = value.replace(/[^0-9]/g, '');
+            if (value !== cleanValue) {
+                $(this).val(cleanValue);
+            }
+        });
+    })
+
+    
+
+
+</script>
+
+>>>>>>> 03687b8d874134f58e13c57f532fde7c6379d3a2

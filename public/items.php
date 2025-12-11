@@ -151,8 +151,13 @@ if (is_admin() || is_operator()) {
                         <td><?= h($it['category'] ?? '-') ?></td>
                         <td><?= h($it['supplier'] ?? '-') ?></td>
                         <td><?= h($it['quantity']) ?></td>
+<<<<<<< HEAD
                         <td style="font-size: 0.9em;">Bs <?= number_format($it['unit_price'], 2) ?></td>
                         <td style="font-size: 0.9em;">Bs <?= number_format($it['quantity'] * $it['unit_price'], 2) ?></td>
+=======
+                        <td style="font-size: 14px;">Bs<?= number_format($it['unit_price'], 2) ?></td>
+                        <td style="font-size: 14px;">Bs<?= number_format($it['quantity'] * $it['unit_price'], 2) ?></td>
+>>>>>>> 03687b8d874134f58e13c57f532fde7c6379d3a2
                         <td>
                             <details>
                                 <summary class="button ghost small">Editar</summary>
@@ -254,7 +259,7 @@ if (is_admin() || is_operator()) {
         var nameInputs = $('input[name="sku"]');
         nameInputs.on('input', function() {
             var value = $(this).val();
-            var cleanValue = value.replace(/[^0-9]/g, '');
+            var cleanValue = value.replace(/[^a-zA-Z0-9-]/g, '');
             if (value !== cleanValue) {
                 $(this).val(cleanValue);
             }
@@ -267,7 +272,7 @@ if (is_admin() || is_operator()) {
         var nameInputs = $('input[name="name"]');
         nameInputs.on('input', function() {
             var value = $(this).val();
-            var cleanValue = value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ0-9]/g, '');
+            var cleanValue = value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ0-9' ']/g, '');
             if (value !== cleanValue) {
                 $(this).val(cleanValue);
             }
