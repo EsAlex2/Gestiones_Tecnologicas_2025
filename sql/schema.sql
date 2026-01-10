@@ -1,5 +1,7 @@
 -- sql/schema.sql
-CREATE DATABASE IF NOT EXISTS inventario_v1 CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+CREATE DATABASE IF NOT EXISTS inventario_v1 
+CHARACTER SET utf8mb4 
+COLLATE utf8mb4_general_ci;
 USE inventario_v1;
 
 -- Usuarios (con rol, username y teléfono)
@@ -108,9 +110,9 @@ UPDATE users SET role = 'admin' WHERE id = 1;
 -- UPDATE users SET role = 'client' WHERE role IS NULL OR role = '';
 
 -- Crear índices para mejor performance en consultas multi-usuario
-CREATE INDEX IF NOT EXISTS idx_items_user_id ON items(user_id);
-CREATE INDEX IF NOT EXISTS idx_movements_user_id ON movements(user_id);
-CREATE INDEX IF NOT EXISTS idx_users_role ON users(role);
+CREATE INDEX  idx_items_user_id ON items(user_id);
+CREATE INDEX idx_movements_user_id ON movements(user_id);
+CREATE INDEX idx_users_role ON users(role);
 
 -- Verificar que las tablas tienen las columnas necesarias
 ALTER TABLE items 

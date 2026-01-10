@@ -34,7 +34,9 @@ $totalValue->execute([$target_user_id]);
 $sumVal = (float)$totalValue->fetch()['v'];
 
 // Data para gráfico: valor por categoría
-$catStmt = $pdo->prepare("SELECT COALESCE(c.name,'Sin categoría') as cat, COALESCE(SUM(i.quantity*i.unit_price),0) val FROM items i LEFT JOIN categories c ON i.category_id=c.id WHERE i.user_id=? GROUP BY IFNULL(i.category_id,0) ORDER BY val DESC LIMIT 12");
+/*$catStmt = $pdo->prepare("SELECT COALESCE(c.name,'Sin categoría') as cat, COALESCE(SUM(i.quantity*i.unit_price),0) val FROM items i LEFT JOIN categories c ON i.category_id=c.id WHERE i.user_id=? GROUP BY IFNULL(i.category_id,0) ORDER BY val DESC LIMIT 12");
+$catStmt->execute([$target_user_id]);*/
+$catStmt = $pdo->prepare("SELECT COALESCE(c.name,'Sin categoría') as cat, COALESCE(SUM(i.quantity*i.unit_price),0) val FROM items i LEFT JOIN categories c ON i.category_id=c.id WHERE i.user_id=? GROUP BY IFNULL(i.category_id,0), c.name ORDER BY val DESC LIMIT 12");
 $catStmt->execute([$target_user_id]);
 $catData = $catStmt->fetchAll();
 $catLabels = array_map(function ($r) {
@@ -45,7 +47,9 @@ $catValues = array_map(function ($r) {
 }, $catData);
 
 // Data para gráfico: cantidad de items por categoría
-$catCountStmt = $pdo->prepare("SELECT COALESCE(c.name,'Sin categoría') as cat, COUNT(*) as count FROM items i LEFT JOIN categories c ON i.category_id=c.id WHERE i.user_id=? GROUP BY IFNULL(i.category_id,0) ORDER BY count DESC LIMIT 10");
+/*$catCountStmt = $pdo->prepare("SELECT COALESCE(c.name,'Sin categoría') as cat, COUNT(*) as count FROM items i LEFT JOIN categories c ON i.category_id=c.id WHERE i.user_id=? GROUP BY IFNULL(i.category_id,0) ORDER BY count DESC LIMIT 10");
+$catCountStmt->execute([$target_user_id]);*/
+$catCountStmt = $pdo->prepare("SELECT COALESCE(c.name,'Sin categoría') as cat, COUNT(*) as count FROM items i LEFT JOIN categories c ON i.category_id=c.id WHERE i.user_id=? GROUP BY IFNULL(i.category_id,0), c.name ORDER BY count DESC LIMIT 10");
 $catCountStmt->execute([$target_user_id]);
 $catCountData = $catCountStmt->fetchAll();
 $catCountLabels = array_map(function ($r) {
@@ -56,7 +60,9 @@ $catCountValues = array_map(function ($r) {
 }, $catCountData);
 
 // Data para gráfico: items por proveedor
-$supplierStmt = $pdo->prepare("SELECT COALESCE(s.name,'Sin proveedor') as supplier, COUNT(*) as count, COALESCE(SUM(i.quantity),0) as total_qty FROM items i LEFT JOIN suppliers s ON i.supplier_id=s.id WHERE i.user_id=? GROUP BY IFNULL(i.supplier_id,0) ORDER BY count DESC LIMIT 8");
+/*$supplierStmt = $pdo->prepare("SELECT COALESCE(s.name,'Sin proveedor') as supplier, COUNT(*) as count, COALESCE(SUM(i.quantity),0) as total_qty FROM items i LEFT JOIN suppliers s ON i.supplier_id=s.id WHERE i.user_id=? GROUP BY IFNULL(i.supplier_id,0) ORDER BY count DESC LIMIT 8");
+$supplierStmt->execute([$target_user_id]);*/
+$supplierStmt = $pdo->prepare("SELECT COALESCE(s.name,'Sin proveedor') as supplier, COUNT(*) as count, COALESCE(SUM(i.quantity),0) as total_qty FROM items i LEFT JOIN suppliers s ON i.supplier_id=s.id WHERE i.user_id=? GROUP BY IFNULL(i.supplier_id,0), s.name ORDER BY count DESC LIMIT 8");
 $supplierStmt->execute([$target_user_id]);
 $supplierData = $supplierStmt->fetchAll();
 $supplierLabels = array_map(function ($r) {
@@ -106,7 +112,9 @@ $stockLabels = ['Stock Bajo', 'Stock Medio', 'Stock Alto'];
 $stockValues = [$low_stock, $medium_stock, $high_stock];
 
 // Data para gráfico: valor total por proveedor
-$supplierValueStmt = $pdo->prepare("SELECT COALESCE(s.name,'Sin proveedor') as supplier, COALESCE(SUM(i.quantity*i.unit_price),0) as total_value FROM items i LEFT JOIN suppliers s ON i.supplier_id=s.id WHERE i.user_id=? GROUP BY IFNULL(i.supplier_id,0) ORDER BY total_value DESC LIMIT 8");
+/*$supplierValueStmt = $pdo->prepare("SELECT COALESCE(s.name,'Sin proveedor') as supplier, COALESCE(SUM(i.quantity*i.unit_price),0) as total_value FROM items i LEFT JOIN suppliers s ON i.supplier_id=s.id WHERE i.user_id=? GROUP BY IFNULL(i.supplier_id,0) ORDER BY total_value DESC LIMIT 8");
+$supplierValueStmt->execute([$target_user_id]);*/
+$supplierValueStmt = $pdo->prepare("SELECT COALESCE(s.name,'Sin proveedor') as supplier, COALESCE(SUM(i.quantity*i.unit_price),0) as total_value FROM items i LEFT JOIN suppliers s ON i.supplier_id=s.id WHERE i.user_id=? GROUP BY IFNULL(i.supplier_id,0), s.name ORDER BY total_value DESC LIMIT 8");
 $supplierValueStmt->execute([$target_user_id]);
 $supplierValueData = $supplierValueStmt->fetchAll();
 $supplierValueLabels = array_map(function ($r) {

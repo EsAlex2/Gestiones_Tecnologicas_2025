@@ -1,4 +1,8 @@
 <?php
+
+error_reporting(E_ALL & ~E_DEPRECATED & ~E_NOTICE);
+ini_set('display_errors', 0);
+
 // reports/export_pdf.php - Versión mejorada con gráficas y estilo profesional
 require_once __DIR__ . '/../config/db.php';
 require_once __DIR__ . '/../lib/auth.php';
@@ -33,13 +37,25 @@ $stmt->execute([$target_user_id]);
 $rows = $stmt->fetchAll();
 
 // Obtener estadísticas para las gráficas
-$catStmt = $pdo->prepare("SELECT COALESCE(c.name,'Sin categoría') as cat, 
+/*$catStmt = $pdo->prepare("SELECT COALESCE(c.name,'Sin categoría') as cat, 
                                  COALESCE(SUM(i.quantity*i.unit_price),0) as val,
                                  COALESCE(SUM(i.quantity),0) as qty
                           FROM items i 
                           LEFT JOIN categories c ON i.category_id=c.id 
                           WHERE i.user_id=? 
                           GROUP BY IFNULL(i.category_id,0) 
+                          ORDER BY val DESC 
+                          LIMIT 8");
+$catStmt->execute([$target_user_id]); 
+$catData = $catStmt->fetchAll();*/
+
+$catStmt = $pdo->prepare("SELECT COALESCE(c.name, 'Sin categoría') as cat, 
+                                 COALESCE(SUM(i.quantity * i.unit_price), 0) as val,
+                                 COALESCE(SUM(i.quantity), 0) as qty
+                          FROM items i 
+                          LEFT JOIN categories c ON i.category_id = c.id 
+                          WHERE i.user_id = ? 
+                          GROUP BY cat  -- Agrupamos por el alias o el nombre de la categoría
                           ORDER BY val DESC 
                           LIMIT 8");
 $catStmt->execute([$target_user_id]); 
