@@ -1,4 +1,4 @@
 hash
 schema.sql
-config.php
+config/config.php
 db.php

@@ -4,10 +4,10 @@
 define('DB_HOST', 'localhost');
 define('DB_NAME', 'inventario_v1');
 define('DB_USER', 'root');
-define('DB_PASS', '');
+define('DB_PASS', 'qwerty2801**');
 define('DB', 'mysql'); // o 'pgsql', 'sqlite', etc.
 
-// URL base (sin la barra final). Ejemplo: http://localhost/gestec/public
+// URL base (sin la barra final)
 define('BASE_URL', '/Gestiones_Tecnologicas_2025/public');
 
 // SMTP (PHPMailer) - configurar estos valores para que el sistema envíe correos.

@@ -268,7 +268,6 @@ $category_summary = $category_stmt->fetchAll();
             <th style="text-align: center;">Cantidad</th>
             <th style="text-align: right;">Precio Unitario</th>
             <th style="text-align: right;">Valor Total</th>
-            <th style="text-align: center;">Última Actualización</th>
         </tr>
     </thead>
     <tbody>
@@ -282,7 +281,6 @@ $category_summary = $category_stmt->fetchAll();
             <td style="text-align: center;"><?= number_format($item['quantity']) ?></td>
             <td style="text-align: right;">$<?= number_format($item['unit_price'], 2) ?></td>
             <td style="text-align: right;">$<?= number_format($item['total'], 2) ?></td>
-            <td style="text-align: center;"><?= date('d/m/Y', strtotime($item['updated_at'])) ?></td>
         </tr>
         <?php endforeach; ?>
         

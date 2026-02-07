@@ -105,7 +105,7 @@ if (is_admin() || is_operator()) {
             <input class="input" type="number" name="quantity" placeholder="Cantidad" min="0" value="0">
             <input class="input" type="number" step="0.01" name="unit_price" placeholder="Precio unitario" min="0" value="0.00">
         </div>
-        <div class="form-grid two" style="margin-top:8px;">
+        <div class="form-grid two" style="margin-top:30px;">
             <select class="input" name="category_id">
                 <option value="">-- Categoría --</option>
                 <?php foreach ($cats as $c): ?>
@@ -119,19 +119,18 @@ if (is_admin() || is_operator()) {
                 <?php endforeach; ?>
             </select>
         </div>
-        <textarea class="input" name="description" rows="3" placeholder="Descripción opcional"></textarea>
+        <textarea class="input" name="description" rows="3" placeholder="Descripción opcional" style="margin-top: 30px"></textarea>
         <div style="margin-top:10px; display:flex; gap:8px; justify-content:flex-end;">
             <input type="submit" class="button primary" value="Agregar Ítem">
         </div>
     </form>
 
     <!-- Tabla de ítems -->
-    <div class="card" style="margin-top:20px;">
+    <div class="card-body" style="margin-top:50px;">
         <h3>Lista de Ítems (<?= $total ?>)</h3>
         <table class="table">
             <thead>
                 <tr>
-                    <th>ID</th>
                     <th>SKU</th>
                     <th>Nombre</th>
                     <th>Cat.</th>
@@ -145,7 +144,6 @@ if (is_admin() || is_operator()) {
             <tbody id="itemsBody">
                 <?php foreach ($items as $it): ?>
                     <tr class="fade-in" data-id="<?= h($it['id']) ?>">
-                        <td><?= h($it['id']) ?></td>
                         <td><?= h($it['sku']) ?></td>
                         <td><?= h($it['name']) ?></td>
                         <td><?= h($it['category'] ?? '-') ?></td>

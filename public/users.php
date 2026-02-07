@@ -135,21 +135,19 @@ $users = $pdo->query($query)->fetchAll();
       <h3>Crear Nuevo Usuario</h3>
       <input type="hidden" name="action" value="create_user">
       <div class="form-grid two">
-        <<<<<<< HEAD <input class="input" type="text" name="first_name" placeholder="Nombres" required>
-          <input class="input" type="text" name="last_name" placeholder="Apellidos" required>
-          <input class="input" type="text" name="username" placeholder="Username" required>
-          <input class="input" type="tel" name="phone" placeholder="Teléfono">
-          <input class="input" type="email" name="email" placeholder="Correo" required>
-          <input class="input" type="password" name="password" placeholder="Contraseña" required minlength="8"
-            maxlength="16">
-          =======
-          <input class="input" type="text" name="first_name" placeholder="Nombres" required maxlength="30">
-          <input class="input" type="text" name="last_name" placeholder="Apellidos" required maxlength="30">
-          <input class="input" type="text" name="username" placeholder="Username" required maxlength="15">
-          <input class="input" type="tel" name="phone" placeholder="Teléfono" required maxlength="11">
-          <input class="input" type="email" name="email" placeholder="Correo" required maxlength="30">
-          <input class="input" type="password" name="password" placeholder="Contraseña" required maxlength="15">
-          >>>>>>> 03687b8d874134f58e13c57f532fde7c6379d3a2
+        <input class="input" id="first_name" type="text" name="first_name" placeholder="Nombres" required>
+        <input class="input" id="last_name" type="text" name="last_name" placeholder="Apellidos" required>
+        <input class="input" id="username" type="text" name="username" placeholder="Username" required>
+        <input class="input" id="phone" type="tel" name="phone" placeholder="Teléfono">
+        <input class="input" id="email" type="email" name="email" placeholder="Correo" required>
+        <input class="input" id="password_input" type="password" name="password" placeholder="Contraseña" required
+          minlength="8" maxlength="16">
+        <input class="input" type="text" name="first_name" placeholder="Nombres" required maxlength="30">
+        <input class="input" type="text" name="last_name" placeholder="Apellidos" required maxlength="30">
+        <input class="input" type="text" name="username" placeholder="Username" required maxlength="15">
+        <input class="input" type="tel" name="phone" placeholder="Teléfono" required maxlength="11">
+        <input class="input" type="email" name="email" placeholder="Correo" required maxlength="30">
+        <input class="input" type="password" name="password" placeholder="Contraseña" required maxlength="15">
       </div>
       <div class="form-grid two" style="margin-top:8px;">
         <select class="input" name="role" required>
@@ -166,7 +164,7 @@ $users = $pdo->query($query)->fetchAll();
   <?php endif; ?>
 
   <!-- Lista de usuarios -->
-  <div class="card" style="margin-top:20px;">
+  <div class="card-body" style="margin-top:30px;">
     <h3>Lista de Usuarios</h3>
     <table class="table">
       <thead>
@@ -360,22 +358,22 @@ $users = $pdo->query($query)->fetchAll();
       });
     });
 
-      $('input[name="username"]').on('input', function () {
-        var value = $(this).val();
-        var cleanValue = value.replace(/[^a-zA-Z0-9_.-]/g, '');
-        if (value !== cleanValue) {
-          $(this).val(cleanValue);
-        }
-      });
-
-      $('input[name="phone"]').on('input', function () {
-        var value = $(this).val();
-        var cleanValue = value.replace(/[^0-9]/g, '');
-        if (value !== cleanValue) {
-          $(this).val(cleanValue);
-        }
-      });
-
+    $('input[name="username"]').on('input', function () {
+      var value = $(this).val();
+      var cleanValue = value.replace(/[^a-zA-Z0-9_.-]/g, '');
+      if (value !== cleanValue) {
+        $(this).val(cleanValue);
+      }
     });
+
+    $('input[name="phone"]').on('input', function () {
+      var value = $(this).val();
+      var cleanValue = value.replace(/[^0-9]/g, '');
+      if (value !== cleanValue) {
+        $(this).val(cleanValue);
+      }
+    });
+
+  });
 
 </script>
