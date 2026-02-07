@@ -180,7 +180,7 @@ CREATE TABLE IF NOT EXISTS business_clients (
   
   -- Información de la empresa
   business_id VARCHAR(50) NOT NULL,
-  business_name VARCHAR(200) NOT NULL,
+  business_name VARCHAR(200) NOT NULL,  
   business_phone VARCHAR(30),
   business_email VARCHAR(150),
   business_address TEXT,
