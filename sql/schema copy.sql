@@ -112,7 +112,7 @@ UPDATE users SET role = 'admin' WHERE id = 1;
 -- Crear índices para mejor performance en consultas multi-usuario
 CREATE INDEX  idx_items_user_id ON items(user_id);
 CREATE INDEX idx_movements_user_id ON movements(user_id);
-CREATE INDEX idx_users_role ON users(role);
+CREATE INDEX idx_users_role ON users(role); 
 
 -- Verificar que las tablas tienen las columnas necesarias
 ALTER TABLE items 
