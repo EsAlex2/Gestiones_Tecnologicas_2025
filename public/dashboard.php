@@ -25,30 +25,18 @@ $totalItems = $pdo->prepare("SELECT COUNT(*) c FROM items WHERE user_id = ?");
 $totalItems->execute([$target_user_id]);
 $count = (int)$totalItems->fetch()['c'];
 
+// Cantidad total de existencias
 $totalQty = $pdo->prepare("SELECT COALESCE(SUM(quantity),0) s FROM items WHERE user_id = ?");
 $totalQty->execute([$target_user_id]);
 $sumQty = (int)$totalQty->fetch()['s'];
 
+
+/* Valor total del inventario
 $totalValue = $pdo->prepare("SELECT COALESCE(SUM(quantity*unit_price),0) v FROM items WHERE user_id = ?");
 $totalValue->execute([$target_user_id]);
 $sumVal = (float)$totalValue->fetch()['v'];
-
-// Data para gráfico: valor por categoría
-/*$catStmt = $pdo->prepare("SELECT COALESCE(c.name,'Sin categoría') as cat, COALESCE(SUM(i.quantity*i.unit_price),0) val FROM items i LEFT JOIN categories c ON i.category_id=c.id WHERE i.user_id=? GROUP BY IFNULL(i.category_id,0) ORDER BY val DESC LIMIT 12");
-$catStmt->execute([$target_user_id]);*/
-$catStmt = $pdo->prepare("SELECT COALESCE(c.name,'Sin categoría') as cat, COALESCE(SUM(i.quantity*i.unit_price),0) val FROM items i LEFT JOIN categories c ON i.category_id=c.id WHERE i.user_id=? GROUP BY IFNULL(i.category_id,0), c.name ORDER BY val DESC LIMIT 12");
-$catStmt->execute([$target_user_id]);
-$catData = $catStmt->fetchAll();
-$catLabels = array_map(function ($r) {
-  return $r['cat'];
-}, $catData);
-$catValues = array_map(function ($r) {
-  return (float)$r['val'];
-}, $catData);
-
+*/
 // Data para gráfico: cantidad de items por categoría
-/*$catCountStmt = $pdo->prepare("SELECT COALESCE(c.name,'Sin categoría') as cat, COUNT(*) as count FROM items i LEFT JOIN categories c ON i.category_id=c.id WHERE i.user_id=? GROUP BY IFNULL(i.category_id,0) ORDER BY count DESC LIMIT 10");
-$catCountStmt->execute([$target_user_id]);*/
 $catCountStmt = $pdo->prepare("SELECT COALESCE(c.name,'Sin categoría') as cat, COUNT(*) as count FROM items i LEFT JOIN categories c ON i.category_id=c.id WHERE i.user_id=? GROUP BY IFNULL(i.category_id,0), c.name ORDER BY count DESC LIMIT 10");
 $catCountStmt->execute([$target_user_id]);
 $catCountData = $catCountStmt->fetchAll();
@@ -60,8 +48,6 @@ $catCountValues = array_map(function ($r) {
 }, $catCountData);
 
 // Data para gráfico: items por proveedor
-/*$supplierStmt = $pdo->prepare("SELECT COALESCE(s.name,'Sin proveedor') as supplier, COUNT(*) as count, COALESCE(SUM(i.quantity),0) as total_qty FROM items i LEFT JOIN suppliers s ON i.supplier_id=s.id WHERE i.user_id=? GROUP BY IFNULL(i.supplier_id,0) ORDER BY count DESC LIMIT 8");
-$supplierStmt->execute([$target_user_id]);*/
 $supplierStmt = $pdo->prepare("SELECT COALESCE(s.name,'Sin proveedor') as supplier, COUNT(*) as count, COALESCE(SUM(i.quantity),0) as total_qty FROM items i LEFT JOIN suppliers s ON i.supplier_id=s.id WHERE i.user_id=? GROUP BY IFNULL(i.supplier_id,0), s.name ORDER BY count DESC LIMIT 8");
 $supplierStmt->execute([$target_user_id]);
 $supplierData = $supplierStmt->fetchAll();
@@ -110,30 +96,6 @@ if (!empty($allQuantities)) {
 
 $stockLabels = ['Stock Bajo', 'Stock Medio', 'Stock Alto'];
 $stockValues = [$low_stock, $medium_stock, $high_stock];
-
-// Data para gráfico: valor total por proveedor
-/*$supplierValueStmt = $pdo->prepare("SELECT COALESCE(s.name,'Sin proveedor') as supplier, COALESCE(SUM(i.quantity*i.unit_price),0) as total_value FROM items i LEFT JOIN suppliers s ON i.supplier_id=s.id WHERE i.user_id=? GROUP BY IFNULL(i.supplier_id,0) ORDER BY total_value DESC LIMIT 8");
-$supplierValueStmt->execute([$target_user_id]);*/
-$supplierValueStmt = $pdo->prepare("SELECT COALESCE(s.name,'Sin proveedor') as supplier, COALESCE(SUM(i.quantity*i.unit_price),0) as total_value FROM items i LEFT JOIN suppliers s ON i.supplier_id=s.id WHERE i.user_id=? GROUP BY IFNULL(i.supplier_id,0), s.name ORDER BY total_value DESC LIMIT 8");
-$supplierValueStmt->execute([$target_user_id]);
-$supplierValueData = $supplierValueStmt->fetchAll();
-$supplierValueLabels = array_map(function ($r) {
-  return $r['supplier'];
-}, $supplierValueData);
-$supplierValueValues = array_map(function ($r) {
-  return (float)$r['total_value'];
-}, $supplierValueData);
-
-// Data para gráfico: top 10 items más valiosos
-$topItemsStmt = $pdo->prepare("SELECT name, (quantity * unit_price) as total_value FROM items WHERE user_id = ? ORDER BY total_value DESC LIMIT 10");
-$topItemsStmt->execute([$target_user_id]);
-$topItemsData = $topItemsStmt->fetchAll();
-$topItemsLabels = array_map(function ($r) {
-  return $r['name'];
-}, $topItemsData);
-$topItemsValues = array_map(function ($r) {
-  return (float)$r['total_value'];
-}, $topItemsData);
 
 // Stats adicionales para admin/operador
 $totalUsers = 0;
@@ -262,41 +224,31 @@ if (is_admin() || is_operator()) {
         <span>En inventario</span>
       </div>
     </div>
+    <!-- Valor total del inventario 
     <div class="stat-card">
       <div class="stat-label">Valor Total</div>
       <div class="stat-value">Bs <?= number_format($sumVal, 2) ?></div>
       <div class="stat-change positive">
         <span>Valoración</span>
       </div>
-    </div>
+    </div>-->
   </div>
 
   <!-- Sección de Gráficos Mejorada -->
   <div class="charts-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 20px; margin-top: 20px;">
 
-    <!-- Gráfico 1: Valor por Categoría -->
-    <div class="card">
-      <h3>Valor por Categoría</h3>
-      <canvas id="catChart" width="400" height="250"></canvas>
-    </div>
-
-    <!-- Gráfico 2: Cantidad de Ítems por Categoría -->
+    <!-- Gráfico 1: Cantidad de Ítems por Categoría -->
     <div class="card">
       <h3>Ítems por Categoría</h3>
       <canvas id="catCountChart" width="400" height="250"></canvas>
     </div>
 
-    <!-- Gráfico 3: Ítems por Proveedor -->
+    <!-- Gráfico 2: Ítems por Proveedor -->
     <div class="card">
       <h3>Ítems por Proveedor</h3>
       <canvas id="supplierChart" width="400" height="250"></canvas>
     </div>
 
-    <!-- Gráfico 4: Valor por Proveedor -->
-    <div class="card">
-      <h3>Valor por Proveedor</h3>
-      <canvas id="supplierValueChart" width="400" height="250"></canvas>
-    </div>
   </div>
 
   <div style="margin: 25px; padding-top: 15px; display: flex; gap: 12px; flex-wrap: wrap;">
@@ -351,50 +303,7 @@ if (is_admin() || is_operator()) {
     dark: 'rgba(55, 65, 81, 1)'
   };
 
-  // Gráfico 1: Valor por Categoría
-  const catChart = document.getElementById('catChart');
-  if (catChart) {
-    new Chart(catChart, {
-      type: 'bar',
-      data: {
-        labels: <?= json_encode($catLabels) ?>,
-        datasets: [{
-          label: 'Valor (Bs)',
-          data: <?= json_encode($catValues) ?>,
-          backgroundColor: Object.values(chartColors),
-          borderColor: Object.values(borderColors),
-          borderWidth: 1
-        }]
-      },
-      options: {
-        responsive: true,
-        plugins: {
-          legend: {
-            display: false
-          },
-          tooltip: {
-            callbacks: {
-              label: function(context) {
-                return `Bs ${context.raw.toLocaleString('es-ES', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
-              }
-            }
-          }
-        },
-        scales: {
-          y: {
-            beginAtZero: true,
-            ticks: {
-              callback: function(value) {
-                return 'Bs ' + value.toLocaleString();
-              }
-            }
-          }
-        }
-      }
-    });
-  }
-
-  // Gráfico 2: Cantidad de Ítems por Categoría
+  // Gráfico 1: Cantidad de Ítems por Categoría
   const catCountChart = document.getElementById('catCountChart');
   if (catCountChart) {
     new Chart(catCountChart, {
@@ -420,7 +329,7 @@ if (is_admin() || is_operator()) {
     });
   }
 
-  // Gráfico 4: Ítems por Proveedor
+  // Gráfico 2: Ítems por Proveedor
   const supplierChart = document.getElementById('supplierChart');
   if (supplierChart) {
     new Chart(supplierChart, {
@@ -447,49 +356,6 @@ if (is_admin() || is_operator()) {
             beginAtZero: true,
             ticks: {
               precision: 0
-            }
-          }
-        }
-      }
-    });
-  }
-
-  // Gráfico 5: Valor por Proveedor
-  const supplierValueChart = document.getElementById('supplierValueChart');
-  if (supplierValueChart) {
-    new Chart(supplierValueChart, {
-      type: 'bar',
-      data: {
-        labels: <?= json_encode($supplierValueLabels) ?>,
-        datasets: [{
-          label: 'Valor Total (Bs)',
-          data: <?= json_encode($supplierValueValues) ?>,
-          backgroundColor: chartColors.success,
-          borderColor: borderColors.success,
-          borderWidth: 1
-        }]
-      },
-      options: {
-        responsive: true,
-        plugins: {
-          legend: {
-            display: false
-          },
-          tooltip: {
-            callbacks: {
-              label: function(context) {
-                return `Bs ${context.raw.toLocaleString('es-ES', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
-              }
-            }
-          }
-        },
-        scales: {
-          y: {
-            beginAtZero: true,
-            ticks: {
-              callback: function(value) {
-                return 'Bs ' + value.toLocaleString();
-              }
             }
           }
         }

@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS users (
   phone VARCHAR(30),
   email VARCHAR(150) NOT NULL UNIQUE,
   password_hash VARCHAR(255) NOT NULL,
-  role ENUM('admin','operator','client') NOT NULL DEFAULT 'client',
+  role ENUM('admin','operator','analyst') NOT NULL DEFAULT 'analyst',
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 

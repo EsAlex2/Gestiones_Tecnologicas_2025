@@ -15,12 +15,12 @@ function require_login() {
     }
 }
 
-function login_user($id, $name, $role='client', $client_id=null) {
+function login_user($id, $name, $role='analyst', $analyst=null) {
     session_regenerate_id(true);
     $_SESSION['user_id'] = $id;
     $_SESSION['user_name'] = $name;
     $_SESSION['user_role'] = $role;
-    $_SESSION['client_id'] = $client_id;
+    $_SESSION['analyst'] = $analyst;
 }
 
 function logout_user() {
@@ -43,8 +43,8 @@ function is_operator() {
     return isset($_SESSION['user_role']) && $_SESSION['user_role'] === ROLE_OPERATOR;
 }
 
-function is_client() {
-    return isset($_SESSION['user_role']) && $_SESSION['user_role'] === ROLE_CLIENT;
+function is_analyst() {
+    return isset($_SESSION['user_role']) && $_SESSION['user_role'] === ROLE_ANALYST;
 }
 
 function require_admin() {
@@ -65,7 +65,7 @@ function get_user_role_name($role) {
     switch($role) {
         case ROLE_ADMIN: return 'Administrador';
         case ROLE_OPERATOR: return 'Operador';
-        case ROLE_CLIENT: return 'Cliente';
+        case ROLE_ANALYST: return 'Analista';
         default: return 'Desconocido';
     }
 }
@@ -83,16 +83,16 @@ function can_manage_user($target_user_id, $pdo) {
     // Administradores pueden gestionar a todos
     if ($current_role === ROLE_ADMIN) return true;
     
-    // Operadores solo pueden gestionar clientes
+    // Operadores solo pueden gestionar analistas
     if ($current_role === ROLE_OPERATOR) {
         $stmt = $pdo->prepare("SELECT role FROM users WHERE id = ?");
         $stmt->execute([$target_user_id]);
         $target_role = $stmt->fetch()['role'] ?? '';
         
-        return $target_role === ROLE_CLIENT;
+        return $target_role === ROLE_ANALYST;
     }
     
-    // Clientes no pueden gestionar a otros usuarios
+    // Analistas no pueden gestionar a otros usuarios
     return false;
 }
 
@@ -108,16 +108,16 @@ function can_manage_user_inventory($target_user_id, $pdo) {
     // Administradores pueden gestionar todo el inventario
     if ($current_role === ROLE_ADMIN) return true;
     
-    // Operadores solo pueden gestionar inventario de clientes
+    // Operadores solo pueden gestionar inventario de analistas
     if ($current_role === ROLE_OPERATOR) {
         $stmt = $pdo->prepare("SELECT role FROM users WHERE id = ?");
         $stmt->execute([$target_user_id]);
         $target_role = $stmt->fetch()['role'] ?? '';
         
-        return $target_role === ROLE_CLIENT;
+        return $target_role === ROLE_ANALYST;
     }
     
-    // Clientes no pueden gestionar inventario de otros
+    // Analistas no pueden gestionar inventario de otros
     return false;
 }
 
@@ -132,12 +132,12 @@ function get_manageable_users($pdo) {
         $stmt = $pdo->query("SELECT id, username, first_name, last_name, email, role FROM users ORDER BY first_name, last_name");
         return $stmt->fetchAll();
     } elseif ($current_role === ROLE_OPERATOR) {
-        // Operadores ven solo clientes
+        // Operadores ven solo analistas
         $stmt = $pdo->prepare("SELECT id, username, first_name, last_name, email, role FROM users WHERE role = ? ORDER BY first_name, last_name");
-        $stmt->execute([ROLE_CLIENT]);
+        $stmt->execute([ROLE_ANALYST]);
         return $stmt->fetchAll();
     } else {
-        // Clientes solo se ven a sí mismos
+        // Analistas solo se ven a sí mismos
         $stmt = $pdo->prepare("SELECT id, username, first_name, last_name, email, role FROM users WHERE id = ?");
         $stmt->execute([$current_user_id]);
         return $stmt->fetchAll();

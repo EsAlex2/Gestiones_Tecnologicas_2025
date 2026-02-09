@@ -73,12 +73,14 @@
               <a class="button ghost" href="items.php">
                 <span>Inventario</span>
               </a>
-              <a class="button ghost" href="movements.php">
+
+              <!-- Solo mostrar el enlace de Movimientos a Operadores y Administradores -->
+              <?php if (is_admin() || is_operator()): ?>
+                <a class="button ghost" href="movements.php">
                 <span>Movimientos</span>
               </a>
-
-
-
+              <?php endif; ?>
+              
               <?php if (is_admin()): ?>
                 <div class="dropdown">
                   <button class="button ghost">

@@ -44,6 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <?php require_once __DIR__ . '/_layout_bottom.php'; ?>
 
 <script>
+  /*
   // Enfocar el primer campo del formulario al cargar la página
   document.addEventListener('DOMContentLoaded', function() {
     document.querySelector('#loginForm input[name="identifier"]').focus();
@@ -70,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       form.submit();
     });
   });
-  
+  */
 
 </script>
 

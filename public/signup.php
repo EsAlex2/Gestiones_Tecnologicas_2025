@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   }
 
 
-  $hash = password_hash($password, PASSWORD_ARGON2ID);
+  $hash = password_hash($password, PASSWORD_DEFAULT);
   $ins = $pdo->prepare("INSERT INTO users (username, first_name, last_name, phone, email, password_hash, role) VALUES (?,?,?,?,?,?,?)");
   $ins->execute([$username, $first, $last, $phone, $email, $hash, $role]);
   
@@ -65,18 +65,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <p style="color:var(--muted); margin-bottom:14px;">Crea y configura tu cuenta para Gestionar tu inventario.</p>
     <form method="post" data-validate>
       <div class="form-grid">
-        <input class="input" type="text" name="first_name" placeholder="Nombres" required maxlength="30">
-        <input class="input" type="text" name="last_name" placeholder="Apellidos" required maxlength="30">
-        <input class="input" type="text" name="username" placeholder="Username" required maxlength="15">
-        <input class="input" type="tel" name="phone" placeholder="Teléfono móvil" required maxlength="11">
-        <input class="input" type="email" name="email" placeholder="Correo" required>
-        <input class="input" type="password" name="password" placeholder="Contraseña" required minlength="8" maxlength="16">
+        <input class="input" id="first_name" type="text" name="first_name" placeholder="Nombres" required maxlength="30">
+        <input class="input" id="last_name" type="text" name="last_name" placeholder="Apellidos" required maxlength="30">
+        <input class="input" id="username" type="text" name="username" placeholder="Username" required maxlength="15">
+        <input class="input" id="phone" type="tel" name="phone" placeholder="Teléfono móvil" required maxlength="11">
+        <input class="input" id="email" type="email" name="email" placeholder="Correo electrónico (gmail.com)" required>
+        <input class="input" id="password" type="password" name="password" placeholder="Contraseña (mínimo 8 caracteres)" required minlength="8">
         
         <!-- Selector de rol -->
         <select class="input" name="role" required>
           <option value="">-- Selecciona tu rol --</option>
-          <option value="<?=ROLE_CLIENT?>">Cliente (Usuario normal)</option>
-          <option value="<?=ROLE_OPERATOR?>">Operador</option>
+          <option value="<?=ROLE_CLIENT?>">Analista</option>
+          <option value="<?=ROLE_OPERATOR?>">Supervisor</option>
           <option value="<?=ROLE_ADMIN?>">Administrador</option>
         </select>
         <div style="grid-column: 1 / -1;">
@@ -166,6 +166,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <?php require_once __DIR__ . '/_layout_bottom.php'; ?>
 
 <script>
+  /*
   // Enfocar el primer campo del formulario al cargar la página
   document.addEventListener('DOMContentLoaded', function() {
     document.querySelector('.auth-card input[name="first_name"]').focus();
@@ -190,8 +191,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       // Enviar el formulario
       form.submit();
     });
-  });
-
-
-
+  });*/
 </script>

@@ -21,7 +21,7 @@ define('SMTP_FROM_NAME', 'Inventario v1');
 // Roles de usuario
 define('ROLE_ADMIN', 'admin');
 define('ROLE_OPERATOR', 'operator');
-define('ROLE_CLIENT', 'client');
+define('ROLE_ANALYST', 'analyst');
 
 // Permisos de gestión multi-usuario
 define('CAN_MANAGE_ALL_USERS', 'manage_all_users');
