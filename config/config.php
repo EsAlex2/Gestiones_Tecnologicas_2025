@@ -11,12 +11,12 @@ define('DB', 'mysql'); // o 'pgsql', 'sqlite', etc.
 define('BASE_URL', '/Gestiones_Tecnologicas_2025/public');
 
 // SMTP (PHPMailer) - configurar estos valores para que el sistema envíe correos.
-define('SMTP_HOST', 'smtp.example.com');
+define('SMTP_HOST', 'smtp.gmail.com');
 define('SMTP_PORT', 587);
-define('SMTP_USER', 'usuario@example.com');
-define('SMTP_PASS', 'tu_contraseña_smtp');
-define('SMTP_FROM', 'no-reply@example.com');
-define('SMTP_FROM_NAME', 'Inventario v1');
+define('SMTP_USER', 'alexmadrid326@gmail.com');
+define('SMTP_PASS', 'tihgngtlkqpuwyzt'); // ¡Usa una contraseña de aplicación, no tu contraseña real!
+define('SMTP_FROM', 'alexmadrid326@gmail.com');
+define('SMTP_FROM_NAME', 'Gestiones Tecnologicas');
 
 // Roles de usuario
 define('ROLE_ADMIN', 'admin');

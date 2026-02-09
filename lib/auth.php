@@ -1,13 +1,18 @@
 <?php
 // lib/auth.php
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
 
+// 1. Iniciar sesión si no existe
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+
+// Funciones de autenticación y autorización
 function is_logged_in() {
     return isset($_SESSION['user_id']);
 }
 
+
+// Funciones de autorización
 function require_login() {
     if (!is_logged_in()) {
         header("Location: ".BASE_URL."/index.php?msg=auth_required&type=warning");
@@ -15,6 +20,7 @@ function require_login() {
     }
 }
 
+// Función para iniciar sesión y establecer la sesión del usuario
 function login_user($id, $name, $role='analyst', $client_id=null) {
     session_regenerate_id(true);
     $_SESSION['user_id'] = $id;
@@ -23,11 +29,13 @@ function login_user($id, $name, $role='analyst', $client_id=null) {
     $_SESSION['client_id'] = $client_id;
 }
 
+
+// Función para cerrar sesión y destruir la sesión del usuario
 function logout_user() {
     $_SESSION = [];
     if (ini_get("session.use_cookies")) {
         $params = session_get_cookie_params();
-        setcookie(session_name(), '', time() - 42000,
+        setcookie(session_name(), '', time() - 4200,
             $params["path"], $params["domain"],
             $params["secure"], $params["httponly"]
         );
@@ -35,6 +43,7 @@ function logout_user() {
     session_destroy();
 }
 
+// Funciones para verificar roles de usuario
 function is_admin() {
     return isset($_SESSION['user_role']) && $_SESSION['user_role'] === ROLE_ADMIN;
 }
@@ -47,6 +56,7 @@ function is_analyst() {
     return isset($_SESSION['user_role']) && $_SESSION['user_role'] === ROLE_ANALYST;
 }
 
+// Funciones para requerir ciertos roles de usuario
 function require_admin() {
     if (!is_admin()) {
         header("Location: ".BASE_URL."/dashboard.php?msg=admin_required&type=danger");
@@ -54,6 +64,7 @@ function require_admin() {
     }
 }
 
+// Función para requerir que el usuario sea operador o administrador
 function require_operator_or_admin() {
     if (!is_admin() && !is_operator()) {
         header("Location: ".BASE_URL."/dashboard.php?msg=operator_required&type=danger");
@@ -61,6 +72,7 @@ function require_operator_or_admin() {
     }
 }
 
+// Función para obtener el nombre legible del rol de usuario
 function get_user_role_name($role) {
     switch($role) {
         case ROLE_ADMIN: return 'Administrador';
@@ -121,6 +133,7 @@ function can_manage_user_inventory($target_user_id, $pdo) {
     return false;
 }
 
+// Función para obtener la lista de usuarios que el usuario actual puede gestionar
 function get_manageable_users($pdo) {
     if (!is_logged_in()) return [];
     
@@ -156,6 +169,7 @@ function require_business_client() {
     }
 }
 
+// Función para obtener el ID del cliente asociado al usuario actual
 function get_business_client_id() {
     return $_SESSION['client_id'] ?? null;
 }
