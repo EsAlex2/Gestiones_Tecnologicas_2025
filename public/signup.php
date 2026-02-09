@@ -65,6 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <p style="color:var(--muted); margin-bottom:14px;">Crea y configura tu cuenta para Gestionar tu inventario.</p>
     <form method="post" data-validate>
       <div class="form-grid">
+        <input class="input" id="cedula" type="text" name="cedula" placeholder="Cedula de Identidad" required maxlength="8">
         <input class="input" id="first_name" type="text" name="first_name" placeholder="Nombres" required maxlength="30">
         <input class="input" id="last_name" type="text" name="last_name" placeholder="Apellidos" required maxlength="30">
         <input class="input" id="username" type="text" name="username" placeholder="Username" required maxlength="15">
@@ -99,6 +100,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <script>
   $(document).ready(function () {
     // Validaciones existentes...
+    var cedulaInput = $('input[name="cedula"]');
+    cedulaInput.on('input', function () {
+      var value = $(this).val();
+      var cleanValue = value.replace(/[^0-9]/g, '');
+      if (value !== cleanValue) {
+        $(this).val(cleanValue);
+      }
+    });
+
     var nameInputs = $('input[name="first_name"], input[name="last_name"]');
     nameInputs.on('input', function () {
       var value = $(this).val();

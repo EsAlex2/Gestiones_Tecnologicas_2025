@@ -1,6 +1,5 @@
 <?php
 // config/config.php
-// Ajusta estas constantes a tu entorno local (XAMPP/MAMP/WAMP).
 define('DB_HOST', 'localhost');
 define('DB_NAME', 'inventario_v1');
 define('DB_USER', 'root');
@@ -10,11 +9,11 @@ define('DB', 'mysql'); // o 'pgsql', 'sqlite', etc.
 // URL base (sin la barra final)
 define('BASE_URL', '/Gestiones_Tecnologicas_2025/public');
 
-// SMTP (PHPMailer) - configurar estos valores para que el sistema envíe correos.
+// SMTP (PHPMailer) - configuracion inicial de envio de correos electronicos, solo para gmail como lo indica el programa
 define('SMTP_HOST', 'smtp.gmail.com');
 define('SMTP_PORT', 587);
 define('SMTP_USER', 'alexmadrid326@gmail.com');
-define('SMTP_PASS', 'tihgngtlkqpuwyzt'); // ¡Usa una contraseña de aplicación, no tu contraseña real!
+define('SMTP_PASS', 'tihgngtlkqpuwyzt');
 define('SMTP_FROM', 'alexmadrid326@gmail.com');
 define('SMTP_FROM_NAME', 'Gestiones Tecnologicas');
 
