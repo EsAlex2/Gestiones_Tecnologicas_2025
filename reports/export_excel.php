@@ -1,5 +1,5 @@
 <?php
-// reports/export_excel.php - Versión profesional mejorada
+// reports/export_excel.php
 require_once __DIR__ . '/../config/db.php';
 require_once __DIR__ . '/../lib/auth.php';
 require_login();
@@ -145,11 +145,13 @@ header("Expires: 0");
             text-align: right;
         }
         .text-center {
+            
             text-align: center;
         }
         .category-summary {
+
             background: #f1f5f9;
-            padding: 15px;
+            padding: 25px 0;
             margin: 20px 0;
             border-radius: 6px;
         }
@@ -181,7 +183,6 @@ header("Expires: 0");
         <tr>
             <td><strong>Teléfono:</strong> <?= htmlspecialchars($target_user_data['phone'] ?: 'No especificado') ?></td>
             <td><strong>Rol:</strong> <?= get_user_role_name($target_user_data['role']) ?></td>
-            <td><strong>ID Usuario:</strong> <?= $target_user_id ?></td>
         </tr>
     </table>
 </div>
@@ -196,16 +197,6 @@ header("Expires: 0");
         <div class="stat-label">EXISTENCIAS TOTALES</div>
         <div class="stat-value"><?= number_format($total_quantity) ?></div>
         <div class="stat-label">Unidades en stock</div>
-    </div>
-    <div class="stat-card warning">
-        <div class="stat-label">VALOR TOTAL</div>
-        <div class="stat-value">$<?= number_format($total_value, 2) ?></div>
-        <div class="stat-label">Valoración total</div>
-    </div>
-    <div class="stat-card" style="background: #7c3aed;">
-        <div class="stat-label">PRECIO PROMEDIO</div>
-        <div class="stat-value">$<?= number_format($avg_price, 2) ?></div>
-        <div class="stat-label">Por unidad</div>
     </div>
 </div>
 
@@ -226,15 +217,13 @@ $category_stmt->execute([$target_user_id]);
 $category_summary = $category_stmt->fetchAll();
 ?>
 
-<div class="category-summary">
+<div class="category-summary" >
     <strong>RESUMEN POR CATEGORÍAS:</strong>
     <table style="width: 100%; margin-top: 10px; border-collapse: collapse;">
         <tr style="background: #1e40af; color: white;">
             <th style="padding: 8px; text-align: left;">Categoría</th>
             <th style="padding: 8px; text-align: center;">Ítems</th>
             <th style="padding: 8px; text-align: center;">Cantidad</th>
-            <th style="padding: 8px; text-align: right;">Valor Total</th>
-            <th style="padding: 8px; text-align: right;">% del Total</th>
         </tr>
         <?php foreach ($category_summary as $cat): ?>
         <?php $percentage = $total_value > 0 ? ($cat['total_value'] / $total_value) * 100 : 0; ?>
@@ -242,16 +231,12 @@ $category_summary = $category_stmt->fetchAll();
             <td style="padding: 6px 8px; border-bottom: 1px solid #e2e8f0;"><?= htmlspecialchars($cat['category']) ?></td>
             <td style="padding: 6px 8px; text-align: center; border-bottom: 1px solid #e2e8f0;"><?= $cat['item_count'] ?></td>
             <td style="padding: 6px 8px; text-align: center; border-bottom: 1px solid #e2e8f0;"><?= number_format($cat['total_quantity']) ?></td>
-            <td style="padding: 6px 8px; text-align: right; border-bottom: 1px solid #e2e8f0;">$<?= number_format($cat['total_value'], 2) ?></td>
-            <td style="padding: 6px 8px; text-align: right; border-bottom: 1px solid #e2e8f0;"><?= number_format($percentage, 1) ?>%</td>
         </tr>
         <?php endforeach; ?>
         <tr style="background: #0f172a; color: white; font-weight: bold;">
             <td style="padding: 8px;">TOTAL GENERAL</td>
             <td style="padding: 8px; text-align: center;"><?= $total_items ?></td>
             <td style="padding: 8px; text-align: center;"><?= number_format($total_quantity) ?></td>
-            <td style="padding: 8px; text-align: right;">$<?= number_format($total_value, 2) ?></td>
-            <td style="padding: 8px; text-align: right;">100%</td>
         </tr>
     </table>
 </div>
@@ -266,8 +251,6 @@ $category_summary = $category_stmt->fetchAll();
             <th>Categoría</th>
             <th>Proveedor</th>
             <th style="text-align: center;">Cantidad</th>
-            <th style="text-align: right;">Precio Unitario</th>
-            <th style="text-align: right;">Valor Total</th>
         </tr>
     </thead>
     <tbody>
@@ -279,8 +262,6 @@ $category_summary = $category_stmt->fetchAll();
             <td><?= htmlspecialchars($item['category_name'] ?: 'Sin categoría') ?></td>
             <td><?= htmlspecialchars($item['supplier_name'] ?: 'Sin proveedor') ?></td>
             <td style="text-align: center;"><?= number_format($item['quantity']) ?></td>
-            <td style="text-align: right;">$<?= number_format($item['unit_price'], 2) ?></td>
-            <td style="text-align: right;">$<?= number_format($item['total'], 2) ?></td>
         </tr>
         <?php endforeach; ?>
         
@@ -288,9 +269,6 @@ $category_summary = $category_stmt->fetchAll();
         <tr class="total-row">
             <td colspan="5"><strong>TOTALES GENERALES</strong></td>
             <td style="text-align: center;"><strong><?= number_format($total_quantity) ?></strong></td>
-            <td style="text-align: right;"></td>
-            <td style="text-align: right;"><strong>$<?= number_format($total_value, 2) ?></strong></td>
-            <td style="text-align: center;"></td>
         </tr>
     </tbody>
 </table>
@@ -323,7 +301,7 @@ foreach ($rows as $item) {
     }
 }
 ?>
-
+<!--
 <div style="margin-top: 30px;">
     <strong>ANÁLISIS DE VALOR POR RANGOS:</strong>
     <table style="width: 100%; margin-top: 10px; border-collapse: collapse;">
@@ -344,8 +322,9 @@ foreach ($rows as $item) {
         <?php endforeach; ?>
     </table>
 </div>
+-->
 
-<!-- Top 10 productos más valiosos -->
+<!-- Top 10 productos más valiosos 
 <?php
 $top_products = array_slice($rows, 0, 10);
 usort($top_products, function($a, $b) {
@@ -377,6 +356,8 @@ usort($top_products, function($a, $b) {
         <?php endforeach; ?>
     </table>
 </div>
+
+-->
 
 <div class="footer">
     <table style="width: 100%;">

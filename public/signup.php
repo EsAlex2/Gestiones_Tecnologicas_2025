@@ -13,12 +13,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $phone = trim($_POST['phone'] ?? '');
   $email = strtolower(trim($_POST['email'] ?? ''));
   $password = $_POST['password'] ?? '';
-  $role = $_POST['role'] ?? ROLE_CLIENT;
+  $role = $_POST['role'] ?? ROLE_ANALYST;
 
   // Validar que el rol sea válido
-  $valid_roles = [ROLE_ADMIN, ROLE_OPERATOR, ROLE_CLIENT];
+  $valid_roles = [ROLE_ADMIN, ROLE_OPERATOR, ROLE_ANALYST];
   if (!in_array($role, $valid_roles)) {
-    $role = ROLE_CLIENT;
+    $role = ROLE_ANALYST; // Asignar rol por defecto si el valor no es válido
   }
 
   if (!$first || !$last || !$username || !$email || !$password) {
@@ -75,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <!-- Selector de rol -->
         <select class="input" name="role" required>
           <option value="">-- Selecciona tu rol --</option>
-          <option value="<?=ROLE_CLIENT?>">Analista</option>
+          <option value="<?=ROLE_ANALYST?>">Analista</option>
           <option value="<?=ROLE_OPERATOR?>">Supervisor</option>
           <option value="<?=ROLE_ADMIN?>">Administrador</option>
         </select>

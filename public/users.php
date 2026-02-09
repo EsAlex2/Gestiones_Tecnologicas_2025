@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $phone = trim($_POST['phone'] ?? '');
     $email = strtolower(trim($_POST['email'] ?? ''));
     $password = $_POST['password'] ?? '';
-    $role = $_POST['role'] ?? ROLE_CLIENT;
+    $role = $_POST['role'] ?? ROLE_ANALYST;
 
     if (!$first || !$last || !$username || !$email || !$password) {
       redirect_with("/users.php", "Completa todos los campos obligatorios", "warning");
@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = trim($_POST['username'] ?? '');
     $phone = trim($_POST['phone'] ?? '');
     $email = strtolower(trim($_POST['email'] ?? ''));
-    $role = $_POST['role'] ?? ROLE_CLIENT;
+    $role = $_POST['role'] ?? ROLE_ANALYST;
 
     // Operadores no pueden cambiar roles ni editar admins
     if (is_operator()) {
@@ -143,10 +143,10 @@ $users = $pdo->query($query)->fetchAll();
         <input class="input" id="password" type="password" name="password" placeholder="Contraseña" required minlength="8"
           maxlength="16">
       </div>
-      <div class="form-grid two" style="margin-top:8px;">
+      <div class="form-grid two" style="margin-top:25px;">
         <select class="input" name="role" required>
           <option value="">-- Seleccionar Rol --</option>
-          <option value="<?= ROLE_CLIENT ?>">Cliente</option>
+          <option value="<?= ROLE_ANALYST ?>">Analista</option>
           <option value="<?= ROLE_OPERATOR ?>">Operador</option>
           <option value="<?= ROLE_ADMIN ?>">Administrador</option>
         </select>
@@ -163,7 +163,6 @@ $users = $pdo->query($query)->fetchAll();
     <table class="table">
       <thead>
         <tr>
-          <th>ID</th>
           <th>Usuario</th>
           <th>Nombres</th>
           <th>Teléfono</th>
@@ -176,7 +175,6 @@ $users = $pdo->query($query)->fetchAll();
       <tbody>
         <?php foreach ($users as $user): ?>
           <tr>
-            <td><?= h($user['id']) ?></td>
             <td><?= h($user['username']) ?></td>
             <td><?= h($user['first_name'] . ' ' . $user['last_name']) ?></td>
             <td><?= h($user['phone']) ?></td>
@@ -205,10 +203,10 @@ $users = $pdo->query($query)->fetchAll();
                     <input class="input" type="email" name="email" value="<?= h($user['email']) ?>" required>
 
                     <?php if (is_admin()): ?>
-                      <select class="input" name="role">
-                        <option value="<?= ROLE_CLIENT ?>" <?= $user['role'] === ROLE_CLIENT ? 'selected' : '' ?>>Cliente
+                      <select class="input" name="role" required> 
+                        <option value="<?= ROLE_ANALYST ?>" <?= $user['role'] === ROLE_ANALYST ? 'selected' : '' ?>>Analista
                         </option>
-                        <option value="<?= ROLE_OPERATOR ?>" <?= $user['role'] === ROLE_OPERATOR ? 'selected' : '' ?>>Operador
+                        <option value="<?= ROLE_OPERATOR ?>" <?= $user['role'] === ROLE_OPERATOR ? 'selected' : '' ?>>Supervisor
                         </option>
                         <option value="<?= ROLE_ADMIN ?>" <?= $user['role'] === ROLE_ADMIN ? 'selected' : '' ?>>Administrador
                         </option>

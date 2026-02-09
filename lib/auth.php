@@ -15,12 +15,12 @@ function require_login() {
     }
 }
 
-function login_user($id, $name, $role='analyst', $analyst=null) {
+function login_user($id, $name, $role='analyst', $client_id=null) {
     session_regenerate_id(true);
     $_SESSION['user_id'] = $id;
     $_SESSION['user_name'] = $name;
     $_SESSION['user_role'] = $role;
-    $_SESSION['analyst'] = $analyst;
+    $_SESSION['client_id'] = $client_id;
 }
 
 function logout_user() {

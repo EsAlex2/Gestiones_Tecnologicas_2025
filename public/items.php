@@ -22,9 +22,10 @@ $target_user_data = $target_user->fetch();
 
 // Pagination params
 $perPage = 12;
-$page = max(1, (int)($_GET['page'] ?? 1));
+$page = max(1, (int) ($_GET['page'] ?? 1));
 $offset = ($page - 1) * $perPage;
 
+// Filtros de búsqueda
 $search = trim($_GET['q'] ?? '');
 $params = [$target_user_id];
 $where = " WHERE i.user_id = ? ";
@@ -35,15 +36,19 @@ if ($search) {
     $params[] = $like;
 }
 
+// Obtener total de ítems y lista paginada
 $totalStmt = $pdo->prepare("SELECT COUNT(*) c FROM items i $where");
 $totalStmt->execute($params);
-$total = (int)$totalStmt->fetch()['c'];
+$total = (int) $totalStmt->fetch()['c'];
 $pages = max(1, ceil($total / $perPage));
 
+
+// Obtener ítems
 $stmt = $pdo->prepare("SELECT i.*, c.name as category, s.name as supplier FROM items i LEFT JOIN categories c ON i.category_id=c.id LEFT JOIN suppliers s ON i.supplier_id=s.id $where ORDER BY i.created_at DESC LIMIT $perPage OFFSET $offset");
 $stmt->execute($params);
 $items = $stmt->fetchAll();
 
+// Obtener categorías y proveedores para formularios
 $cats = $pdo->query("SELECT * FROM categories ORDER BY name")->fetchAll();
 $sups = $pdo->query("SELECT * FROM suppliers ORDER BY name")->fetchAll();
 
@@ -58,7 +63,8 @@ if (is_admin() || is_operator()) {
             <h2>Gestión de Inventario</h2>
             <p style="color:var(--text-muted); margin:0;">
                 <?php if ($target_user_id != $uid): ?>
-                    Inventario de: <strong><?= h($target_user_data['first_name'] . ' ' . $target_user_data['last_name']) ?></strong>
+                    Inventario de:
+                    <strong><?= h($target_user_data['first_name'] . ' ' . $target_user_data['last_name']) ?></strong>
                 <?php else: ?>
                     Gestiona tu inventario de productos
                 <?php endif; ?>
@@ -102,8 +108,6 @@ if (is_admin() || is_operator()) {
         <div class="form-grid two">
             <input class="input" type="text" name="sku" placeholder="SKU" required>
             <input class="input" type="text" name="name" placeholder="Nombre" required>
-            <input class="input" type="number" name="quantity" placeholder="Cantidad" min="0" value="0">
-            <input class="input" type="number" step="0.01" name="unit_price" placeholder="Precio unitario" min="0" value="0.00">
         </div>
         <div class="form-grid two" style="margin-top:30px;">
             <select class="input" name="category_id">
@@ -119,7 +123,11 @@ if (is_admin() || is_operator()) {
                 <?php endforeach; ?>
             </select>
         </div>
-        <textarea class="input" name="description" rows="3" placeholder="Descripción opcional" style="margin-top: 30px"></textarea>
+        <div class="form-grid" style="margin-top:30px;">
+            <input class="input" type="number" name="quantity" placeholder="Cantidad" min="0" value="0">
+        </div>
+        <textarea class="input" name="description" rows="3" placeholder="Descripción opcional"
+            style="margin-top: 30px"></textarea>
         <div style="margin-top:10px; display:flex; gap:8px; justify-content:flex-end;">
             <input type="submit" class="button primary" value="Agregar Ítem">
         </div>
@@ -136,8 +144,6 @@ if (is_admin() || is_operator()) {
                     <th>Cat.</th>
                     <th>Prov.</th>
                     <th>Cant.</th>
-                    <th>Precio</th>
-                    <th>Valor</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
@@ -149,21 +155,17 @@ if (is_admin() || is_operator()) {
                         <td><?= h($it['category'] ?? '-') ?></td>
                         <td><?= h($it['supplier'] ?? '-') ?></td>
                         <td><?= h($it['quantity']) ?></td>
-                        <td style="font-size: 0.9em;">Bs <?= number_format($it['unit_price'], 2) ?></td>
-                        <td style="font-size: 0.9em;">Bs <?= number_format($it['quantity'] * $it['unit_price'], 2) ?></td>
-
                         <td>
                             <details>
                                 <summary class="button ghost small">Editar</summary>
-                                <form class="editForm" data-id="<?= h($it['id']) ?>" style="margin-top:8px; display:grid; gap:6px;">
+                                <form class="editForm" data-id="<?= h($it['id']) ?>"
+                                    style="margin-top:8px; display:grid; gap:6px;">
                                     <input type="hidden" name="action" value="update_item">
                                     <input type="hidden" name="id" value="<?= h($it['id']) ?>">
                                     <input type="hidden" name="target_user_id" value="<?= h($target_user_id) ?>">
 
                                     <input class="input" type="text" name="sku" value="<?= h($it['sku']) ?>" required>
                                     <input class="input" type="text" name="name" value="<?= h($it['name']) ?>" required>
-                                    
-                                    <input class="input" type="number" step="0.01" name="unit_price" min="0" value="<?= h($it['unit_price']) ?>">
 
                                     <select class="input" name="category_id">
                                         <option value="">-- Categoría --</option>
@@ -183,7 +185,8 @@ if (is_admin() || is_operator()) {
                                         <?php endforeach; ?>
                                     </select>
 
-                                    <textarea class="input" name="description" rows="2"><?= h($it['description']) ?></textarea>
+                                    <textarea class="input" name="description"
+                                        rows="2"><?= h($it['description']) ?></textarea>
 
                                     <div style="display:flex; gap:6px;">
                                         <button class="button primary small saveBtn">Guardar</button>
@@ -213,7 +216,8 @@ if (is_admin() || is_operator()) {
         <?php if ($pages > 1): ?>
             <div style="margin-top:20px; display:flex; gap:8px; justify-content:center; align-items:center;">
                 <?php if ($page > 1): ?>
-                    <a class="button ghost" href="items.php?page=<?= $page - 1 ?>&q=<?= urlencode($search) ?>&user_id=<?= $target_user_id ?>">
+                    <a class="button ghost"
+                        href="items.php?page=<?= $page - 1 ?>&q=<?= urlencode($search) ?>&user_id=<?= $target_user_id ?>">
                         « Anterior
                     </a>
                 <?php endif; ?>
@@ -223,7 +227,8 @@ if (is_admin() || is_operator()) {
                 </span>
 
                 <?php if ($page < $pages): ?>
-                    <a class="button ghost" href="items.php?page=<?= $page + 1 ?>&q=<?= urlencode($search) ?>&user_id=<?= $target_user_id ?>">
+                    <a class="button ghost"
+                        href="items.php?page=<?= $page + 1 ?>&q=<?= urlencode($search) ?>&user_id=<?= $target_user_id ?>">
                         Siguiente »
                     </a>
                 <?php endif; ?>
@@ -236,9 +241,9 @@ if (is_admin() || is_operator()) {
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     //Validacion para el campo 'Buscar por SKU/Nombre' que solo acepte letras y numeros (sin caracteres)
-    $(document).ready(function() {
+    $(document).ready(function () {
         var nameInputs = $('input[name="q"]');
-        nameInputs.on('input', function() {
+        nameInputs.on('input', function () {
             var value = $(this).val();
             var cleanValue = value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ0-9]/g, '');
             if (value !== cleanValue) {
@@ -249,9 +254,9 @@ if (is_admin() || is_operator()) {
 
 
     //Validacion para el campo 'SKU' que solo acepte numeros (sin caracteres ni letras)
-    $(document).ready(function() {
+    $(document).ready(function () {
         var nameInputs = $('input[name="sku"]');
-        nameInputs.on('input', function() {
+        nameInputs.on('input', function () {
             var value = $(this).val();
             var cleanValue = value.replace(/[^a-zA-Z0-9-]/g, '');
             if (value !== cleanValue) {
@@ -262,9 +267,9 @@ if (is_admin() || is_operator()) {
 
 
     //Validacion para el campo 'Nombre' que solo acepte numeros y letras (sin caracteres)
-    $(document).ready(function() {
+    $(document).ready(function () {
         var nameInputs = $('input[name="name"]');
-        nameInputs.on('input', function() {
+        nameInputs.on('input', function () {
             var value = $(this).val();
             var cleanValue = value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ0-9' ']/g, '');
             if (value !== cleanValue) {
@@ -286,7 +291,7 @@ if (is_admin() || is_operator()) {
     }
 
     // Crear ítem
-    document.getElementById('createItemForm')?.addEventListener('submit', async function(e) {
+    document.getElementById('createItemForm')?.addEventListener('submit', async function (e) {
         e.preventDefault();
         const res = await postForm('api.php', this);
         if (res.ok) {
@@ -355,9 +360,9 @@ if (is_admin() || is_operator()) {
             fd.append('target_user_id', target_user_id);
 
             fetch('api.php', {
-                    method: 'POST',
-                    body: fd
-                })
+                method: 'POST',
+                body: fd
+            })
                 .then(r => r.json())
                 .then(res => {
                     if (res.ok) {

@@ -20,6 +20,8 @@ $target_user = $pdo->prepare("SELECT username, first_name, last_name, email, rol
 $target_user->execute([$target_user_id]);
 $target_user_data = $target_user->fetch();
 
+
+// Obtener movimientos del usuario objetivo
 $stmt = $pdo->prepare("SELECT m.*, i.name as item_name FROM movements m JOIN items i ON m.item_id=i.id WHERE m.user_id=? ORDER BY m.created_at DESC LIMIT 500");
 $stmt->execute([$target_user_id]);
 $rows = $stmt->fetchAll();
@@ -68,7 +70,6 @@ if (is_admin() || is_operator()) {
                 <th>Tipo</th>
                 <th>Cantidad</th>
                 <th>Proveedor</th>
-                <th>Cliente</th>
                 <th>Nota</th>
                 <th>Fecha</th>
             </tr>
@@ -84,8 +85,7 @@ if (is_admin() || is_operator()) {
                         </span>
                     </td>
                     <td><?= h($r['quantity']) ?></td>
-                    <td><?= h($r['supplier_name'] ?? '-') ?></td>
-                    <td><?= h($r['client_name'] ?? '-') ?></td>
+                    <td><?= h($r['supplier_id'] ?? '-') ?></td>
                     <td><?= h($r['note']) ?></td>
                     <td><?= h($r['created_at']) ?></td>
                 </tr>

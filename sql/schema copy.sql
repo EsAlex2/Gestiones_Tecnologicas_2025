@@ -133,29 +133,23 @@ ADD FOREIGN KEY (supplier_id) REFERENCES suppliers(id) ON DELETE SET NULL;
 
 -- Insertar categorías por defecto
 INSERT IGNORE INTO categories (name, description) VALUES 
+('Sala de Computacion', 'Equipos informaticos'),
+('Sala de Servidores', 'Serivores Empresariales'),
+('Centro de Comunicaciones', 'Salon de datos e Informacion'),
 ('Electrónicos', 'Dispositivos y componentes electrónicos'),
-('Ropa', 'Prendas de vestir y accesorios'),
-('Hogar', 'Artículos para el hogar'),
+('Direccion Administrativa', 'Sala de Informacion administrativa'),
 ('Oficina', 'Suministros de oficina'),
-('Herramientas', 'Herramientas y equipos'),
-('Deportes', 'Artículos deportivos'),
-('Juguetes', 'Juguetes y juegos'),
-('Alimentos', 'Productos alimenticios'),
-('Salud', 'Productos de salud y belleza'),
-('Automotriz', 'Repuestos y accesorios para vehículos');
+('Herramientas', 'Herramientas y equipos');
 
 -- Insertar proveedores por defecto
-INSERT IGNORE INTO suppliers (name, contact, phone, email, address) VALUES 
-('TecnoSupply S.A.', 'Juan Pérez', '+1-234-567-8900', 'ventas@tecnosupply.com', 'Av. Tecnológica 123, Ciudad'),
-('Distribuidora Global', 'María García', '+1-234-567-8901', 'contacto@globaldist.com', 'Calle Comercio 456, Zona Industrial'),
-('Importaciones Elite', 'Carlos Rodríguez', '+1-234-567-8902', 'info@eliteimports.com', 'Plaza Empresarial 789, Centro'),
-('Suministros Rápidos', 'Ana Martínez', '+1-234-567-8903', 'pedidos@suministrosrapidos.com', 'Boulevard Industrial 321, Parque Industrial');
+insert ignore into suppliers (name, contact, phone, email, address) values
+('Indatech', 'Jose Perez', '04242977384', 'Info@indatechca.com', 'c.c.c.t, Torre C, piso 7 oficinas 707 C. Ernesto Blohm, Caracas 1060, Distrito Capital 
+Venezuela');
+
 
 -- índices 
 CREATE INDEX IF NOT EXISTS idx_categories_name ON categories(name);
 CREATE INDEX IF NOT EXISTS idx_suppliers_name ON suppliers(name);
-
--- Modificaciones para el módulo de clientes empresariales
 
 -- Tabla para tipos de empresa
 CREATE TABLE IF NOT EXISTS business_types (

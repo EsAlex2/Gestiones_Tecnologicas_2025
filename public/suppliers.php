@@ -135,7 +135,6 @@ $suppliers = $pdo->query("SELECT s.*,
             <table class="table">
                 <thead>
                     <tr>
-                        <th>ID</th>
                         <th>Nombre</th>
                         <th>Contacto</th>
                         <th>Teléfono</th>
@@ -147,7 +146,6 @@ $suppliers = $pdo->query("SELECT s.*,
                 <tbody>
                     <?php foreach($suppliers as $sup): ?>
                     <tr>
-                        <td><?= h($sup['id']) ?></td>
                         <td>
                             <strong><?= h($sup['name']) ?></strong>
                             <?php if ($sup['address']): ?>

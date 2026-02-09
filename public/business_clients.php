@@ -198,7 +198,7 @@ $available_users = $pdo->query("
     SELECT u.id, u.username, u.first_name, u.last_name, u.email, u.role 
     FROM users u 
     LEFT JOIN business_clients bc ON u.id = bc.user_id 
-    WHERE bc.id IS NULL AND u.role IN ('" . ROLE_CLIENT . "','" . ROLE_OPERATOR . "')
+    WHERE bc.id IS NULL AND u.role IN ('" . ROLE_ANALYST . "','" . ROLE_OPERATOR . "')
     ORDER BY u.first_name, u.last_name
 ")->fetchAll();
 
@@ -229,8 +229,8 @@ $business_clients = $pdo->query("
                 <h4>Información Personal del Contacto</h4>
                 <div class="form-grid two">
                     <div class="input-group">
-                        <label class="input-label">DNI *</label>
-                        <input class="input" type="text" name="personal_dni" placeholder="Número de DNI" required
+                        <label class="input-label">Cedula de Identidad *</label>
+                        <input class="input" type="text" name="personal_dni" placeholder="Número de Cedula" required
                             maxlength="20">
                     </div>
                     <div class="input-group">
@@ -259,12 +259,14 @@ $business_clients = $pdo->query("
                         <input class="input" type="email" name="personal_email" placeholder="correo@personal.com"
                             maxlength="30">
                     </div>
+
                     <div class="input-group">
                         <label class="input-label">Género *</label>
                         <select class="input" name="personal_gender" required>
+                            <option value="" selected>-- Seleccionar Género --</option>
                             <option value="male">Masculino</option>
                             <option value="female">Femenino</option>
-                            <option value="other">Otro</option>
+                            <option value="other">Prefiero no decirlo</option>
                         </select>
                     </div>
                     <div class="input-group">
@@ -346,10 +348,9 @@ $business_clients = $pdo->query("
             <table class="table">
                 <thead>
                     <tr>
-                        <th>ID</th>
                         <th>Empresa</th>
                         <th>Contacto</th>
-                        <th>DNI</th>
+                        <th>RIF</th>
                         <th>Usuario</th>
                         <th>Tipo</th>
                         <th>Estado</th>
@@ -360,7 +361,6 @@ $business_clients = $pdo->query("
                 <tbody>
                     <?php foreach ($business_clients as $client): ?>
                         <tr>
-                            <td><?= h($client['id']) ?></td>
                             <td>
                                 <strong><?= h($client['business_name']) ?></strong>
                                 <br><small style="color:var(--text-muted);"><?= h($client['business_id']) ?></small>

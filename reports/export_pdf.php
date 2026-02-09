@@ -58,7 +58,7 @@ $catStmt = $pdo->prepare("SELECT COALESCE(c.name, 'Sin categoría') as cat,
                           GROUP BY cat  -- Agrupamos por el alias o el nombre de la categoría
                           ORDER BY val DESC 
                           LIMIT 8");
-$catStmt->execute([$target_user_id]); 
+$catStmt->execute([$target_user_id]);
 $catData = $catStmt->fetchAll();
 
 // Estadísticas generales
@@ -245,45 +245,17 @@ $html = '
             <div class="stat-label">EXISTENCIAS TOTALES</div>
             <div class="stat-value">' . number_format($totalQuantity) . '</div>
         </div>
-        <div class="stat-card" style="background:#d97706;">
-            <div class="stat-label">VALOR TOTAL</div>
-            <div class="stat-value">$' . number_format($totalValue, 2) . '</div>
-        </div>
     </div>
 
     <div class="charts-section">
-        <h3 style="color:#1e40af; border-bottom:2px solid #1e40af; padding-bottom:10px;">ANÁLISIS POR CATEGORÍAS</h3>
-        
-        <!-- Gráfica de valor por categoría -->
-        <div class="chart-container">
-            <div class="chart-title">Distribución del Valor por Categoría</div>
-            <table style="width:100%;">
-                <tr>
-                    <th style="width:60%;">Categoría</th>
-                    <th style="width:20%; text-align:right;">Valor</th>
-                    <th style="width:20%; text-align:right;">Porcentaje</th>
-                </tr>';
-
+        <h3 style="color:#1e40af; border-bottom:2px solid #1e40af; padding-bottom:10px;">ANÁLISIS POR CATEGORÍAS</h3>';
 $totalVal = array_sum(array_column($catData, 'val'));
 foreach ($catData as $cat) {
     $percentage = $totalVal > 0 ? ($cat['val'] / $totalVal) * 100 : 0;
-    $html .= '
-                <tr>
-                    <td>' . htmlspecialchars($cat['cat']) . '</td>
-                    <td style="text-align:right;">$' . number_format($cat['val'], 2) . '</td>
-                    <td style="text-align:right;">' . number_format($percentage, 1) . '%</td>
-                </tr>';
+    $html .= '';
 }
 
 $html .= '
-                <tr class="total-row">
-                    <td><strong>TOTAL</strong></td>
-                    <td style="text-align:right;"><strong>$' . number_format($totalVal, 2) . '</strong></td>
-                    <td style="text-align:right;"><strong>100%</strong></td>
-                </tr>
-            </table>
-        </div>
-
         <!-- Gráfica de cantidad por categoría -->
         <div class="chart-container">
             <div class="chart-title">Distribución de Cantidad por Categoría</div>
@@ -327,8 +299,6 @@ $html .= '
                 <th>Categoría</th>
                 <th>Proveedor</th>
                 <th style="text-align:right;">Cantidad</th>
-                <th style="text-align:right;">Precio Unit.</th>
-                <th style="text-align:right;">Valor Total</th>
             </tr>
         </thead>
         <tbody>';
@@ -341,8 +311,6 @@ foreach ($rows as $r) {
                 <td>' . htmlspecialchars($r['category'] ?? 'Sin categoría') . '</td>
                 <td>' . htmlspecialchars($r['supplier'] ?? 'Sin proveedor') . '</td>
                 <td style="text-align:right;">' . number_format($r['quantity']) . '</td>
-                <td style="text-align:right;">$' . number_format($r['unit_price'], 2) . '</td>
-                <td style="text-align:right;">$' . number_format($r['total'], 2) . '</td>
             </tr>';
 }
 
@@ -350,8 +318,6 @@ $html .= '
             <tr class="total-row">
                 <td colspan="4"><strong>TOTAL GENERAL</strong></td>
                 <td style="text-align:right;"><strong>' . number_format($totalQuantity) . '</strong></td>
-                <td style="text-align:right;"></td>
-                <td style="text-align:right;"><strong>$' . number_format($totalValue, 2) . '</strong></td>
             </tr>
         </tbody>
     </table>

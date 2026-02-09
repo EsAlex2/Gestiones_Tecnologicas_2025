@@ -113,7 +113,6 @@ $categories = $pdo->query("SELECT c.*,
             <table class="table">
                 <thead>
                     <tr>
-                        <th>ID</th>
                         <th>Nombre</th>
                         <th>Descripción</th>
                         <th>Ítems Asociados</th>
@@ -124,7 +123,6 @@ $categories = $pdo->query("SELECT c.*,
                 <tbody>
                     <?php foreach($categories as $cat): ?>
                     <tr>
-                        <td><?= h($cat['id']) ?></td>
                         <td>
                             <strong><?= h($cat['name']) ?></strong>
                         </td>

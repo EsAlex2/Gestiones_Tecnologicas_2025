@@ -4,7 +4,7 @@
 define('DB_HOST', 'localhost');
 define('DB_NAME', 'inventario_v1');
 define('DB_USER', 'root');
-define('DB_PASS', 'qwerty2801**');
+define('DB_PASS', '');
 define('DB', 'mysql'); // o 'pgsql', 'sqlite', etc.
 
 // URL base (sin la barra final)
