@@ -1,4 +1,4 @@
-<?php 
+<?php
 // public/perfil.php
 require_once __DIR__ . '/_layout_top.php'; ?>
 
@@ -10,11 +10,12 @@ require_once __DIR__ . '/_layout_top.php'; ?>
                 Edita y personaliza tu perfil
             </p>
         </div>
+        <!-- proximo desarrollo para mostrar y cargar fotos de los usuarios-->
         <div class="fotos">
             fotos
         </div>
     </div>
-</div> 
+</div>
 
 
 

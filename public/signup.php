@@ -80,7 +80,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <input class="input" id="phone" type="tel" name="phone" placeholder="Teléfono móvil" required maxlength="11">
         <input class="input" id="email" type="email" name="email" placeholder="Correo electrónico (gmail.com)" required>
         <input class="input" id="password" type="password" name="password" placeholder="Contraseña (mínimo 8 caracteres)" required minlength="8">
-        
         <!-- Selector de rol -->
         <select class="input" name="role" required>
           <option value="">-- Selecciona tu rol --</option>
