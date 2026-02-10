@@ -46,25 +46,27 @@ $page_title = $page_titles[$current_page] ?? 'Sistema de Gestión';
             <p>Sistema de Gestión Empresarial</p>
           </div>
         </div>
+    
 
         <div class="toolbar">
           <div class="toolbar-left">
             <button class="button ghost" data-theme-toggle title="Cambiar tema">
               ☀️
             </button>
-
+            
             <span class="badge <?=
               is_admin() ? 'primary' : (is_operator() ? 'info' : 'success')
               ?>">
               <?= get_user_role_name($_SESSION['user_role']) ?>
             </span>
           </div>
-
+          <!--
           <div class="user-info-section">
             <span class="user-info">
               Hola, <strong><?= h($_SESSION['user_name']) ?></strong>
             </span>
-          </div>
+          </div>  
+          -->
 
           <div class="nav-actions">
             <a class="button ghost" href="dashboard.php">
