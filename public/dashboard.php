@@ -260,12 +260,12 @@ if (is_admin() || is_operator()) {
       Gestionar Inventario →
     </a>
 
+    <!-- Botones adicionales según rol -->
+    <?php if (is_admin() || is_operator()): ?>
     <a class="button secondary" href="movements.php?user_id=<?= $target_user_id ?>">
       Ver Movimientos
     </a>
-
-    <!-- Botones adicionales según rol -->
-    <?php if (is_admin() || is_operator()): ?>
+    
       <a class="button ghost" href="users.php">Gestionar Usuarios</a>
     <?php endif; ?>
 

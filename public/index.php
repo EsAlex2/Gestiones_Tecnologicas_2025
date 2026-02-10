@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   }
 }
 ?>
-<div class="auth-wrap">
+<div class="auth" style="padding-top: 150px;">
   <div class="card auth-card fade-in">
     <h2>Iniciar sesión</h2>
     <p style="color:var(--muted); margin-bottom:14px;">Ingresa con tu username o correo.</p>

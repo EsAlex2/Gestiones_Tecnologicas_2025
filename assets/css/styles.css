@@ -708,7 +708,8 @@ input[type="submit"]:hover {
   display: grid;
   place-items: center;
   padding: var(--spacing-xl);
-  background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+  /*background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);*/
+  background-image: url('../images/comunidad.png');
 }
 
 .auth-card {
@@ -786,7 +787,7 @@ input[type="submit"]:hover {
   width: 48px;
   height: 48px;
   border-radius: var(--radius);
-  background: linear-gradient(135deg, var(--primary), var(--accent));
+  background: linear-gradient(135deg, var(--accent));
   display: flex;
   align-items: center;
   justify-content: center;

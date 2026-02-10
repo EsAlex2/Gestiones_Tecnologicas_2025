@@ -67,7 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   redirect_with("/index.php", "Cuenta creada. Ya puedes iniciar sesión.", "success");
 }
 ?>
-<div class="auth-wrap">
+<div class="auth">
   <div class="card auth-card scale-in">
     <h2>Crear cuenta</h2>
     <p style="color:var(--muted); margin-bottom:14px;">Crea y configura tu cuenta para Gestionar tu inventario.</p>
