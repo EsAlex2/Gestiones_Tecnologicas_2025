@@ -11,6 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $action = $_POST['action'] ?? '';
 
   if ($action === 'create_user' && is_admin()) {
+    $cedula = trim($_POST['cedula'] ?? '');
     $first = trim($_POST['first_name'] ?? '');
     $last = trim($_POST['last_name'] ?? '');
     $username = trim($_POST['username'] ?? '');
@@ -19,24 +20,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['password'] ?? '';
     $role = $_POST['role'] ?? ROLE_ANALYST;
 
-    if (!$first || !$last || !$username || !$email || !$password) {
+    if (!$cedula || !$first || !$last || !$username || !$email || !$password) {
       redirect_with("/users.php", "Completa todos los campos obligatorios", "warning");
     }
 
     // Verificar username/email
-    $exists = $pdo->prepare("SELECT id FROM users WHERE email = ? OR username = ?");
-    $exists->execute([$email, $username]);
+    $exists = $pdo->prepare("SELECT id FROM users WHERE cedula = ? OR email = ? OR username = ?");
+    $exists->execute([$cedula, $email, $username]);
     if ($exists->fetch()) {
-      redirect_with("/users.php", "Email o username ya registrado", "danger");
+      redirect_with("/users.php", "Cédula, email o username ya registrado", "danger");
     }
 
     $hash = password_hash($password, PASSWORD_DEFAULT);
-    $ins = $pdo->prepare("INSERT INTO users (username, first_name, last_name, phone, email, password_hash, role) VALUES (?,?,?,?,?,?,?)");
-    $ins->execute([$username, $first, $last, $phone, $email, $hash, $role]);
+    $ins = $pdo->prepare("INSERT INTO users (cedula, username, first_name, last_name, phone, email, password_hash, role) VALUES (?,?,?,?,?,?,?,?)");
+    $ins->execute([$cedula, $username, $first, $last, $phone, $email, $hash, $role]);
     redirect_with("/users.php", "Usuario creado exitosamente", "success");
 
   } elseif ($action === 'update_user') {
     $id = (int) ($_POST['id'] ?? 0);
+    $cedula = trim($_POST['cedula'] ?? '');
     $first = trim($_POST['first_name'] ?? '');
     $last = trim($_POST['last_name'] ?? '');
     $username = trim($_POST['username'] ?? '');
@@ -69,8 +71,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       redirect_with("/users.php", "Email o username ya está en uso por otro usuario", "danger");
     }
 
-    $upd = $pdo->prepare("UPDATE users SET username=?, first_name=?, last_name=?, phone=?, email=?, role=? WHERE id=?");
-    $upd->execute([$username, $first, $last, $phone, $email, $role, $id]);
+    $upd = $pdo->prepare("UPDATE users SET cedula=?, username=?, first_name=?, last_name=?, phone=?, email=?, role=? WHERE id=?");
+    $upd->execute([$cedula, $username, $first, $last, $phone, $email, $role, $id]);
     redirect_with("/users.php", "Usuario actualizado", "success");
 
   } elseif ($action === 'change_password') {
@@ -116,7 +118,7 @@ if (isset($_GET['delete']) && is_admin()) {
 }
 
 // Obtener lista de usuarios
-$query = "SELECT id, username, first_name, last_name, phone, email, role, created_at FROM users ORDER BY created_at DESC";
+$query = "SELECT id, cedula, username, first_name, last_name, phone, email, role, created_at FROM users ORDER BY created_at DESC";
 $users = $pdo->query($query)->fetchAll();
 ?>
 <div class="card">
@@ -134,16 +136,21 @@ $users = $pdo->query($query)->fetchAll();
     <form method="post" class="card" data-validate>
       <h3>Crear Nuevo Usuario</h3>
       <input type="hidden" name="action" value="create_user">
-      <div class="form-grid two">
+      <div class="form-grid">
+        <input class="input" id="cedula" type="text" name="cedula" placeholder="Cédula de Identidad" required
+          maxlength="8">
         <input class="input" id="first_name" type="text" name="first_name" placeholder="Nombres" required>
         <input class="input" id="last_name" type="text" name="last_name" placeholder="Apellidos" required>
         <input class="input" id="username" type="text" name="username" placeholder="Username" required>
         <input class="input" id="phone" type="tel" name="phone" placeholder="Teléfono">
-        <input class="input" id="email" type="email" name="email" placeholder="Solo se permite correos @gmail.com" required>
+      </div>
+      <div class="form-grid" style="padding-top: 30px;">
+        <input class="input" id="email" type="email" name="email" placeholder="Solo se permite correos @gmail.com"
+          required>
         <input class="input" id="password" type="password" name="password" placeholder="Contraseña" required minlength="8"
           maxlength="16">
       </div>
-      <div class="form-grid two" style="margin-top:25px;">
+      <div class="form-grid" style="margin-top:25px;">
         <select class="input" name="role" required>
           <option value="">-- Seleccionar Rol --</option>
           <option value="<?= ROLE_ANALYST ?>">Analista</option>
@@ -163,6 +170,7 @@ $users = $pdo->query($query)->fetchAll();
     <table class="table">
       <thead>
         <tr>
+          <th>Cédula</th>
           <th>Usuario</th>
           <th>Nombres</th>
           <th>Teléfono</th>
@@ -175,6 +183,7 @@ $users = $pdo->query($query)->fetchAll();
       <tbody>
         <?php foreach ($users as $user): ?>
           <tr>
+            <td><?= h($user['cedula']) ?></td>
             <td><?= h($user['username']) ?></td>
             <td><?= h($user['first_name'] . ' ' . $user['last_name']) ?></td>
             <td><?= h($user['phone']) ?></td>
@@ -196,6 +205,7 @@ $users = $pdo->query($query)->fetchAll();
                   <form method="post" style="display:grid; gap:6px;">
                     <input type="hidden" name="action" value="update_user">
                     <input type="hidden" name="id" value="<?= h($user['id']) ?>">
+                    <input class="input" type="text" name="cedula" value="<?= h($user['cedula']) ?>" required>
                     <input class="input" type="text" name="username" value="<?= h($user['username']) ?>" required>
                     <input class="input" type="text" name="first_name" value="<?= h($user['first_name']) ?>" required>
                     <input class="input" type="text" name="last_name" value="<?= h($user['last_name']) ?>" required>
@@ -203,10 +213,11 @@ $users = $pdo->query($query)->fetchAll();
                     <input class="input" type="email" name="email" value="<?= h($user['email']) ?>" required>
 
                     <?php if (is_admin()): ?>
-                      <select class="input" name="role" required> 
+                      <select class="input" name="role" required>
                         <option value="<?= ROLE_ANALYST ?>" <?= $user['role'] === ROLE_ANALYST ? 'selected' : '' ?>>Analista
                         </option>
-                        <option value="<?= ROLE_OPERATOR ?>" <?= $user['role'] === ROLE_OPERATOR ? 'selected' : '' ?>>Supervisor
+                        <option value="<?= ROLE_OPERATOR ?>" <?= $user['role'] === ROLE_OPERATOR ? 'selected' : '' ?>>
+                          Supervisor
                         </option>
                         <option value="<?= ROLE_ADMIN ?>" <?= $user['role'] === ROLE_ADMIN ? 'selected' : '' ?>>Administrador
                         </option>
@@ -275,6 +286,15 @@ $users = $pdo->query($query)->fetchAll();
 <script>
 
   $(document).ready(function () {
+
+    //validaciones para el campo de cedula para la creacion y edicion de usuarios
+    $('input[name="cedula"]').on('input', function () {
+      var value = $(this).val();
+      var cleanValue = value.replace(/[^0-9]/g, '');
+      if (value !== cleanValue) {
+        $(this).val(cleanValue);
+      }
+    });
 
     //validaciones para nombres y Apellidos para la creacion y edicion de usuarios
     $('input[name="first_name"], input[name="last_name"]').on('input', function () {

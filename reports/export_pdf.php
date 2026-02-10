@@ -20,7 +20,7 @@ if ($target_user_id != $uid && !can_manage_user_inventory($target_user_id, $pdo)
 }
 
 // Obtener información del usuario objetivo
-$target_user = $pdo->prepare("SELECT username, first_name, last_name, email, role, phone FROM users WHERE id = ?");
+$target_user = $pdo->prepare("SELECT cedula, username, first_name, last_name, email, role, phone FROM users WHERE id = ?");
 $target_user->execute([$target_user_id]);
 $target_user_data = $target_user->fetch();
 
@@ -213,6 +213,10 @@ $html = '
     <div class="user-info">
         <h3 style="margin:0 0 15px 0; color:#1e40af;">INFORMACIÓN DEL USUARIO</h3>
         <table style="width:100%; background:transparent;">
+            <tr>
+                <td style="border:none; padding:5px 0; width:30%;"><strong>Cédula:</strong></td>
+                <td style="border:none; padding:5px 0;">' . htmlspecialchars($target_user_data['cedula'] ?: 'No especificada') . '</td>
+            </tr>
             <tr>
                 <td style="border:none; padding:5px 0; width:30%;"><strong>Nombre:</strong></td>
                 <td style="border:none; padding:5px 0;">' . htmlspecialchars($target_user_data['first_name'] . ' ' . $target_user_data['last_name']) . '</td>

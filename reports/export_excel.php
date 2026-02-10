@@ -16,7 +16,7 @@ if ($target_user_id != $uid && !can_manage_user_inventory($target_user_id, $pdo)
 }
 
 // Obtener información del usuario objetivo
-$target_user = $pdo->prepare("SELECT username, first_name, last_name, email, role, phone FROM users WHERE id = ?");
+$target_user = $pdo->prepare("SELECT cedula, username, first_name, last_name, email, role, phone FROM users WHERE id = ?");
 $target_user->execute([$target_user_id]);
 $target_user_data = $target_user->fetch();
 
@@ -183,6 +183,7 @@ header("Expires: 0");
         <tr>
             <td><strong>Teléfono:</strong> <?= htmlspecialchars($target_user_data['phone'] ?: 'No especificado') ?></td>
             <td><strong>Rol:</strong> <?= get_user_role_name($target_user_data['role']) ?></td>
+            <td><strong>Cédula:</strong> <?= htmlspecialchars($target_user_data['cedula'] ?: 'No especificada') ?></td>
         </tr>
     </table>
 </div>

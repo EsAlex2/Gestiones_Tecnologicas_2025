@@ -7,6 +7,7 @@ USE inventario_v1;
 -- Usuarios (con rol, username y teléfono)
 CREATE TABLE IF NOT EXISTS users (
   id INT AUTO_INCREMENT PRIMARY KEY,
+  cedula VARCHAR(20) NOT NULL UNIQUE,
   username VARCHAR(50) NOT NULL UNIQUE,
   first_name VARCHAR(100) NOT NULL,
   last_name VARCHAR(100) NOT NULL,
@@ -94,63 +95,6 @@ CREATE TABLE IF NOT EXISTS movements (
   FOREIGN KEY (client_id) REFERENCES clients(id) ON DELETE SET NULL
 );
 
-
-
--- Establecer el primer usuario como administrador
-UPDATE users SET role = 'admin' WHERE id = 1;
-
-
--- Asegurarse de que la tabla users tiene el campo role
-
-
--- Actualizar usuarios existentes
-UPDATE users SET role = 'admin' WHERE id = 1; 
--- Primer usuario como admin
--- UPDATE users SET role = 'operator' WHERE id IN (2,3); -- Otros usuarios como operadores
--- UPDATE users SET role = 'client' WHERE role IS NULL OR role = '';
-
--- Crear índices para mejor performance en consultas multi-usuario
-CREATE INDEX  idx_items_user_id ON items(user_id);
-CREATE INDEX idx_movements_user_id ON movements(user_id);
-CREATE INDEX idx_users_role ON users(role); 
-
--- Verificar que las tablas tienen las columnas necesarias
-ALTER TABLE items 
-MODIFY COLUMN user_id INT NOT NULL,
-ADD INDEX idx_user_id (user_id);
-
-ALTER TABLE movements 
-MODIFY COLUMN user_id INT NOT NULL,
-ADD INDEX idx_user_id (user_id);
-
-
--- Actualizar tabla items para usar las nuevas tablas
-ALTER TABLE items 
-MODIFY COLUMN category_id INT NULL,
-MODIFY COLUMN supplier_id INT NULL,
-ADD FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE SET NULL,
-ADD FOREIGN KEY (supplier_id) REFERENCES suppliers(id) ON DELETE SET NULL;
-
--- Insertar categorías por defecto
-INSERT IGNORE INTO categories (name, description) VALUES 
-('Sala de Computacion', 'Equipos informaticos'),
-('Sala de Servidores', 'Serivores Empresariales'),
-('Centro de Comunicaciones', 'Salon de datos e Informacion'),
-('Electrónicos', 'Dispositivos y componentes electrónicos'),
-('Direccion Administrativa', 'Sala de Informacion administrativa'),
-('Oficina', 'Suministros de oficina'),
-('Herramientas', 'Herramientas y equipos');
-
--- Insertar proveedores por defecto
-insert ignore into suppliers (name, contact, phone, email, address) values
-('Indatech', 'Jose Perez', '04242977384', 'Info@indatechca.com', 'c.c.c.t, Torre C, piso 7 oficinas 707 C. Ernesto Blohm, Caracas 1060, Distrito Capital 
-Venezuela');
-
-
--- índices 
-CREATE INDEX IF NOT EXISTS idx_categories_name ON categories(name);
-CREATE INDEX IF NOT EXISTS idx_suppliers_name ON suppliers(name);
-
 -- Tabla para tipos de empresa
 CREATE TABLE IF NOT EXISTS business_types (
   id INT AUTO_INCREMENT PRIMARY KEY,
@@ -206,6 +150,14 @@ INSERT INTO business_types (name, description) VALUES
 ('Construction', 'Empresas constructoras'),
 ('Other', 'Otro tipo de empresa');
 
+-- índices 
+CREATE INDEX IF NOT EXISTS idx_categories_name ON categories(name);
+CREATE INDEX IF NOT EXISTS idx_suppliers_name ON suppliers(name);
+
+-- Agregar campo cedula a la tabla users para identificación única
+ALTER TABLE users 
+ADD COLUMN cedula VARCHAR(20) UNIQUE AFTER username;
+
 -- Agregar campo client_id a la tabla users para relacionar con business_clients
 ALTER TABLE users ADD COLUMN client_id INT DEFAULT NULL AFTER role;
 ALTER TABLE users ADD FOREIGN KEY (client_id) REFERENCES business_clients(id) ON DELETE SET NULL;
@@ -221,3 +173,43 @@ ALTER TABLE movements ADD FOREIGN KEY (client_business_id) REFERENCES business_c
 -- Actualizar la restricción única en items para incluir client_id
 ALTER TABLE items DROP INDEX user_id;
 ALTER TABLE items ADD UNIQUE KEY (user_id, client_id, sku);
+
+-- Crear índices para mejor performance en consultas multi-usuario
+CREATE INDEX  idx_items_user_id ON items(user_id);
+CREATE INDEX idx_movements_user_id ON movements(user_id);
+CREATE INDEX idx_users_role ON users(role); 
+
+-- Verificar que las tablas tienen las columnas necesarias
+ALTER TABLE items 
+MODIFY COLUMN user_id INT NOT NULL,
+ADD INDEX idx_user_id (user_id);
+
+ALTER TABLE movements 
+MODIFY COLUMN user_id INT NOT NULL,
+ADD INDEX idx_user_id (user_id);
+
+
+-- Actualizar tabla items para usar las nuevas tablas
+ALTER TABLE items 
+MODIFY COLUMN category_id INT NULL,
+MODIFY COLUMN supplier_id INT NULL,
+ADD FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE SET NULL,
+ADD FOREIGN KEY (supplier_id) REFERENCES suppliers(id) ON DELETE SET NULL;
+
+-- Insertar categorías por defecto
+INSERT IGNORE INTO categories (name, description) VALUES 
+('Sala de Computacion', 'Equipos informaticos'),
+('Sala de Servidores', 'Serivores Empresariales'),
+('Centro de Comunicaciones', 'Salon de datos e Informacion'),
+('Electrónicos', 'Dispositivos y componentes electrónicos'),
+('Direccion Administrativa', 'Sala de Informacion administrativa'),
+('Oficina', 'Suministros de oficina'),
+('Herramientas', 'Herramientas y equipos');
+
+-- Insertar proveedores por defecto
+insert ignore into suppliers (name, contact, phone, email, address) values
+('Indatech', 'Jose Perez', '04242977384', 'Info@indatechca.com', 'c.c.c.t, Torre C, piso 7 oficinas 707 C. Ernesto Blohm, Caracas 1060, Distrito Capital 
+Venezuela');
+
+
+

@@ -16,7 +16,7 @@ if ($target_user_id != $uid && !can_manage_user_inventory($target_user_id, $pdo)
 }
 
 // Obtener información del usuario objetivo - MODIFICADO: incluir client_id
-$target_user = $pdo->prepare("SELECT username, first_name, last_name, email, role, client_id FROM users WHERE id = ?");
+$target_user = $pdo->prepare("SELECT cedula, username, first_name, last_name, email, role, client_id FROM users WHERE id = ?");
 $target_user->execute([$target_user_id]);
 $target_user_data = $target_user->fetch();
 
@@ -147,7 +147,10 @@ if (is_admin() || is_operator()) {
   <!-- Información del usuario -->
   <div class="card" style="margin-bottom:15px;">
     <h3>Información de Usuario</h3>
-    <div class="form-grid three">
+    <div class="form-grid two">
+      <div>
+        <strong>Cédula:</strong> <?= h($target_user_data['cedula']) ?> <!-- Nuevo campo cedula -->
+      </div>
       <div>
         <strong>Nombre:</strong> <?= h($target_user_data['first_name'] . ' ' . $target_user_data['last_name']) ?>
       </div>
@@ -162,6 +165,7 @@ if (is_admin() || is_operator()) {
       <div>
         <strong>Usuario:</strong> <?= h($target_user_data['username']) ?>
       </div>
+
     </div>
   </div>
   

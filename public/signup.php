@@ -7,6 +7,7 @@ if (is_logged_in()) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  $cedula = trim($_POST['cedula'] ?? '');
   $first = trim($_POST['first_name'] ?? '');
   $last = trim($_POST['last_name'] ?? '');
   $username = trim($_POST['username'] ?? '');
@@ -21,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $role = ROLE_ANALYST; // Asignar rol por defecto si el valor no es válido
   }
 
-  if (!$first || !$last || !$username || !$email || !$password) {
+  if (!$cedula || !$first || !$last || !$username || !$email || !$password) {
     redirect_with("/signup.php", "Completa todos los campos obligatorios", "warning");
   }
 
@@ -34,16 +35,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   }
 
   // verificar username/email
-  $exists = $pdo->prepare("SELECT id FROM users WHERE email = ? OR username = ?");
-  $exists->execute([$email, $username]);
+  $exists = $pdo->prepare("SELECT id FROM users WHERE cedula = ? OR email = ? OR username = ? ");
+  $exists->execute([$cedula, $email, $username]);
   if ($exists->fetch()) {
-    redirect_with("/signup.php", "Email o username ya registrado", "danger");
+    redirect_with("/signup.php", "Cédula, email o username ya registrado", "danger");
   }
 
-
+  // Insertar nuevo usuario con contraseña hasheada
   $hash = password_hash($password, PASSWORD_DEFAULT);
-  $ins = $pdo->prepare("INSERT INTO users (username, first_name, last_name, phone, email, password_hash, role) VALUES (?,?,?,?,?,?,?)");
-  $ins->execute([$username, $first, $last, $phone, $email, $hash, $role]);
+  $ins = $pdo->prepare("INSERT INTO users (cedula, username, first_name, last_name, phone, email, password_hash, role) VALUES (?,?,?,?,?,?,?,?)");
+  $ins->execute([$cedula, $username, $first, $last, $phone, $email, $hash, $role]);
+
+  /*logica para verificar si la cedula de identidad ya existe en la tabla users
+  $exists_cedula = $pdo->prepare("SELECT id FROM users WHERE cedula = ? ");
+  $exists_cedula->execute([$cedula]);
+  if ($exists_cedula->fetch()) {
+    redirect_with("/signup.php", "La cédula de identidad ya está registrada", "danger");
+  }*/
   
   // Si es el primer usuario, iniciar sesión automáticamente
   if ($role === ROLE_ADMIN || $role === ROLE_OPERATOR) {
