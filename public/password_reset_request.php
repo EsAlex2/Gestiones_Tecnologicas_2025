@@ -105,7 +105,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   redirect_with("/password_reset_request.php", "Sistema no configurado para SMTP. Token generado (ver abajo) — úsalo para probar.", "warning");
 }
 ?>
-<div class="auth-wrap">
+<div class="auth" style="padding-top: 150px;">
   <div class="card auth-card">
     <h2>Recuperar contraseña</h2>
     <p style="color:var(--muted); margin-bottom:14px;">Ingresa el correo asociado a tu cuenta.</p>
