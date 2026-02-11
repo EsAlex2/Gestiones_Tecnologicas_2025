@@ -242,6 +242,10 @@ $category_summary = $category_stmt->fetchAll();
     </table>
 </div>
 
+<br>
+<br>
+<br>
+
 <!-- Tabla principal de inventario -->
 <table class="data-table">
     <thead>
@@ -359,6 +363,11 @@ usort($top_products, function($a, $b) {
 </div>
 
 -->
+
+<br>
+<br>
+<br>
+
 
 <div class="footer">
     <table style="width: 100%;">

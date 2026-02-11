@@ -137,22 +137,17 @@ CREATE TABLE IF NOT EXISTS business_clients (
   UNIQUE KEY (business_id)
 );
 
--- Insertar tipos de empresa comunes
-INSERT INTO business_types (name, description) VALUES 
-('Retail', 'Venta de productos al por menor'),
-('Wholesale', 'Venta de productos al por mayor'),
-('Services', 'Prestación de servicios'),
-('Manufacturing', 'Fabricación de productos'),
-('Technology', 'Empresas de tecnología'),
-('Food & Beverage', 'Restaurantes y venta de alimentos'),
-('Healthcare', 'Servicios de salud'),
-('Education', 'Instituciones educativas'),
-('Construction', 'Empresas constructoras'),
-('Other', 'Otro tipo de empresa');
+--------------------actualizaciones a las tablas de la base de datos
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 -- índices 
 CREATE INDEX IF NOT EXISTS idx_categories_name ON categories(name);
 CREATE INDEX IF NOT EXISTS idx_suppliers_name ON suppliers(name);
+
+-- Crear índices para mejor performance en consultas multi-usuario
+CREATE INDEX  idx_items_user_id ON items(user_id);
+CREATE INDEX idx_movements_user_id ON movements(user_id);
+CREATE INDEX idx_users_role ON users(role); 
 
 -- Agregar campo cedula a la tabla users para identificación única
 ALTER TABLE users 
@@ -174,10 +169,6 @@ ALTER TABLE movements ADD FOREIGN KEY (client_business_id) REFERENCES business_c
 ALTER TABLE items DROP INDEX user_id;
 ALTER TABLE items ADD UNIQUE KEY (user_id, client_id, sku);
 
--- Crear índices para mejor performance en consultas multi-usuario
-CREATE INDEX  idx_items_user_id ON items(user_id);
-CREATE INDEX idx_movements_user_id ON movements(user_id);
-CREATE INDEX idx_users_role ON users(role); 
 
 -- Verificar que las tablas tienen las columnas necesarias
 ALTER TABLE items 
@@ -188,13 +179,20 @@ ALTER TABLE movements
 MODIFY COLUMN user_id INT NOT NULL,
 ADD INDEX idx_user_id (user_id);
 
-
 -- Actualizar tabla items para usar las nuevas tablas
 ALTER TABLE items 
 MODIFY COLUMN category_id INT NULL,
 MODIFY COLUMN supplier_id INT NULL,
 ADD FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE SET NULL,
 ADD FOREIGN KEY (supplier_id) REFERENCES suppliers(id) ON DELETE SET NULL;
+
+
+
+-- Insertar tipos de empresa comunes
+INSERT INTO business_types (name, description) VALUES 
+('Educacion', 'Gestion Educativa'),
+('Wholesale', 'Gestion en el area de salud');
+
 
 -- Insertar categorías por defecto
 INSERT IGNORE INTO categories (name, description) VALUES 
@@ -210,6 +208,34 @@ INSERT IGNORE INTO categories (name, description) VALUES
 insert ignore into suppliers (name, contact, phone, email, address) values
 ('Indatech', 'Jose Perez', '04242977384', 'Info@indatechca.com', 'c.c.c.t, Torre C, piso 7 oficinas 707 C. Ernesto Blohm, Caracas 1060, Distrito Capital 
 Venezuela');
+
+
+--insertar equipos del iuti
+insert ignore into items (id, user_id, sku, name, description, quantity, category_id, supplier_id) 
+values
+(3,	6,	'IUTI-DIRNAC-002',	'equipo 01', 	'Interl Core I3-2120 3.30 ghz	8GB	500GB SSD	Windows 10',	1,	11,	5),
+(4,	6,	'IUTI-SUBDIR-001',	'equipo 02',	'AMD Athlon II X3 435	8GB	500GB HDD	Windows 10',	1,	11,	5),
+(5,	6,	'IUTI-ASTDNC-002',	'equipo 03',	'Intel Core I5 8500 3GHZ	8GB	500 SSD	Windows 11',	1,	11,	5),
+(6,	6,	'IUTI-CACADEMICA',	'equipo 04',	'Intel Core I5 4590S 3GHZ	8GB	256 SSD	Windows 7 Ultimate',	1,	11,	5),
+(7,	6,	'IUTI-ASTCA-001',	'equipo 05',	'Intel Core I5 3470S 2,9 GHZ	6GB	500 HDD	Windows 10',	1,	11,	5),
+(8,	6,	'IUTI-ACDM-001',	'equipo 06',	'Intel Core I5 8500 3GHZ	8GB	256 HDD	Windows 11',	1,	11,	5),
+(9,	6,	'IUTI-ADMON-001',	'equipo 07',	'Intel Core I5 6500 3,20 GHZ	8GB	256 SSD	Windows 10',	1,	11,	5),
+(10, 6,	'IUTI-ASTADM-001',	'equipo 08',	'Intel(R) Core(TM) i5-6500 CPU @ 3.20GHz   3.19 GHz	8GB	256 SSD	Windows 11',	1,	11,	5),
+(11, 6,	'IUTI-ASTCONTBL',	'equipo 09',	'Pentium(R) Dual Core CPU E5500 2.8 GHz	4GB	128 HHD	Windows 7 Ultimate',	1,	11,	5),
+(12, 6,	'IUTI-CAJA01',	'equipo 10',	'Intel(R) Core(TM) i3-2100 CPU @ 3.10GHz   3.10 GHz	4GB	500 SSD	Windows 10',	1,	11,	5),
+(13, 6,	'IUTI-CAJA02',	'equipo 11',	'Intel(R) Core(TM) i3-4130 CPU @ 3.10GHz   3.40 GHz	8GB	256 SSD	Windows 10',	1,	11,	5),
+(14, 6,	'IUTI-CLIPER-001',	'equipo 12',	'Intel(R) Core(TM) i7-7700 CPU @ 3.60GHz	8GB	256 SSD	Windows 7 Ultimate',	1,	11,	5),
+(15,	6,	'IUTI-ARCHV-001',	'equipo 13',	'Intel(R) Core(TM) i7-7700 CPU @ 3.60GHz	8GB	256 ssd	Windows 7 Ultimate',	1, 11,	5),
+(16,	6,	'TAQ001',	'equipo 14',	'Intel(R) Core(TM) i3-2130 CPU @ 3.40GHz	5GB	256 ssd	Windows 7 Ultimate',	1,	11, 5),
+(17,	6,	'TAQ002',	'equipo 15',	'Intel(R) Core(TM) i3-4130 CPU @ 3.40GHz	8GB	256 ssd Windows 7 Ultimate',	1,	11,	5),
+(18,	6,	'IUTI-ASICE-001',	'equipo 16',	'Intel(R) Core(TM) i3-4130 CPU @ 3.40GHz	8GB	500GB HDD	Windows 7 Ultimate',	1,	11,	5),
+(19,	6,	'IUTI-CORDCE-001',	'equipo 17',	'Intel(R) Core(TM) i5-4570 CPU @ 3.20 GHz	8GB	500GB HDD	Windows 7 Ultimate',	1,	11,	5),
+(20,	6,	'IUTI-CBASIC-001',	'equipo 18',	'Intel(R) Core(TM) i7-7700 CPU @ 3.60GHz   3.60 GHz	8GB	256SSD	Windows 11',	1,	11,	5),
+(21,	6,	'IUTI-RINST-002',	'equipo 19',	'Intel(R) Core(TM) i3-4130 CPU @ 3.40GHz   3.40 GHz	8GB	256SSD	Windows 11',	1,	11,	5),
+(22,	6,	'IUTI-RINST-001',	'equipo 20',	'Intel(R) Core(TM) i5-8500 CPU @ 3.00GHz (3.00 GHz)	16GB	500 SSD	Windows 10',	1,	11,	5),
+(23,	6,	'IUTI-BIBLIO-001',	'equipo 21',	'Intel(R) Core(TM) i5-6500 CPU @ 3.20GHz (3.20 GHz)	8gb	256 SSD	Windows 10',	1,	11,	5),
+(24,	6,	'IUTI-CPAS-001',	'equipo 22',	'Intel(R) Core(TM) i3-4130 CPU @ 3.40GHz   3.40 GHz	8gb	256 SSD	Windows 10',	1,	11,	5),
+(25,	6, 'IUTI-CEXT-001',	'equipo 23',	'Intel(R) Core(TM) i5-6500 CPU @ 3.20GHz (3.20 GHz)	8gb	256 SSD	Windows 10',	1,	11,	5);
 
 
 

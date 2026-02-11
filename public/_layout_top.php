@@ -65,8 +65,6 @@ $page_title = $page_titles[$current_page] ?? 'Sistema de Gestión';
               <span>Inventario</span>
             </a>
 
-            <a class="button ghost" href="perfil.php"><span>Perfil</span></a>
-
             <!-- Solo mostrar el enlace de Movimientos a Operadores y Administradores -->
             <?php if (is_admin() || is_operator()): ?>
               <div class="dropdown">
@@ -81,8 +79,6 @@ $page_title = $page_titles[$current_page] ?? 'Sistema de Gestión';
                   <a class="dropdown-item" href="client_selector.php">Selector de Clientes</a>
                   <a href="categories.php" class="dropdown-item">Categorías</a>
                   <a href="suppliers.php" class="dropdown-item">Proveedores</a>
-                  <div class="dropdown-divider"></div>
-                  <a href="#" class="dropdown-item">Ajustes Generales</a>
                   <?php endif; ?>
                 </div>
                 
@@ -95,5 +91,5 @@ $page_title = $page_titles[$current_page] ?? 'Sistema de Gestión';
       </header>
     <?php else: ?>
       <div class="auth-wrap"
-        style="background-image: url('../assets/images/comunidad.png'); background-repeat: no-repeat; background-position: center; background-size: cover;">
+        style="background-image: url('../assets/images/comunidad.png' ); background-repeat: no-repeat; background-position: center; background-size: cover;">
       <?php endif; ?>

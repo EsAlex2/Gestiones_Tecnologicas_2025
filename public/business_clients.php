@@ -277,6 +277,8 @@ $business_clients = $pdo->query("
                 </div>
             </div>
 
+            <div class="dropdown-divider"></div>
+
             <div class="form-section" style="margin-top: 20px;">
                 <h4>Información Empresarial</h4>
                 <div class="form-grid two">
@@ -350,7 +352,7 @@ $business_clients = $pdo->query("
                     <tr>
                         <th>Empresa</th>
                         <th>Contacto</th>
-                        <th>RIF</th>
+                        <th>Cedula de Identidad</th>
                         <th>Usuario</th>
                         <th>Tipo</th>
                         <th>Estado</th>

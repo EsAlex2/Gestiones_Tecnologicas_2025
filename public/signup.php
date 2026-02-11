@@ -90,7 +90,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div style="grid-column: 1 / -1;">
           <small style="color:var(--muted);">
             <strong>Nota:</strong> Solo el primer usuario del sistema puede registrarse como Administrador u Operador. 
-            Los siguientes usuarios deberán usar el rol "Cliente".
+            Los siguientes usuarios deberán usar el rol "Analista".
           </small>
         </div>
       </div>
