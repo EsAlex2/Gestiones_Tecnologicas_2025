@@ -23,12 +23,12 @@ $target_user_data = $target_user->fetch();
 // Stats del usuario objetivo
 $totalItems = $pdo->prepare("SELECT COUNT(*) c FROM items WHERE user_id = ?");
 $totalItems->execute([$target_user_id]);
-$count = (int)$totalItems->fetch()['c'];
+$count = (int) $totalItems->fetch()['c'];
 
 // Cantidad total de existencias
 $totalQty = $pdo->prepare("SELECT COALESCE(SUM(quantity),0) s FROM items WHERE user_id = ?");
 $totalQty->execute([$target_user_id]);
-$sumQty = (int)$totalQty->fetch()['s'];
+$sumQty = (int) $totalQty->fetch()['s'];
 
 
 /* Valor total del inventario
@@ -44,7 +44,7 @@ $catCountLabels = array_map(function ($r) {
   return $r['cat'];
 }, $catCountData);
 $catCountValues = array_map(function ($r) {
-  return (int)$r['count'];
+  return (int) $r['count'];
 }, $catCountData);
 
 // Data para gráfico: items por proveedor
@@ -55,10 +55,10 @@ $supplierLabels = array_map(function ($r) {
   return $r['supplier'];
 }, $supplierData);
 $supplierCounts = array_map(function ($r) {
-  return (int)$r['count'];
+  return (int) $r['count'];
 }, $supplierData);
 $supplierQtys = array_map(function ($r) {
-  return (int)$r['total_qty'];
+  return (int) $r['total_qty'];
 }, $supplierData);
 
 // Data para gráfico: distribución de existencias (bajo stock, medio, alto)
@@ -118,7 +118,8 @@ if (is_admin() || is_operator()) {
       <h2>Dashboard</h2>
       <p style="color:var(--text-muted); margin:0;">
         <?php if ($target_user_id != $uid): ?>
-          Vista del inventario de: <strong><?= h($target_user_data['first_name'] . ' ' . $target_user_data['last_name']) ?></strong>
+          Vista del inventario de:
+          <strong><?= h($target_user_data['first_name'] . ' ' . $target_user_data['last_name']) ?></strong>
           (<?= get_user_role_name($target_user_data['role']) ?>)
         <?php else: ?>
           Visión general de tu inventario
@@ -157,8 +158,8 @@ if (is_admin() || is_operator()) {
       <div>
         <strong>Rol:</strong>
         <span class="badge <?=
-                            $target_user_data['role'] === ROLE_ADMIN ? 'primary' : ($target_user_data['role'] === ROLE_OPERATOR ? 'info' : 'success')
-                            ?>">
+          $target_user_data['role'] === ROLE_ADMIN ? 'primary' : ($target_user_data['role'] === ROLE_OPERATOR ? 'info' : 'success')
+          ?>">
           <?= get_user_role_name($target_user_data['role']) ?>
         </span>
       </div>
@@ -168,7 +169,7 @@ if (is_admin() || is_operator()) {
 
     </div>
   </div>
-  
+
   <?php
   // Obtener información del cliente empresarial si existe
   $business_client = null;
@@ -198,7 +199,8 @@ if (is_admin() || is_operator()) {
           <strong>Tipo:</strong> <?= h($business_client['business_type_name']) ?>
         </div>
         <div>
-          <strong>Contacto:</strong> <?= h($business_client['personal_first_name'] . ' ' . $business_client['personal_last_name']) ?>
+          <strong>Contacto:</strong>
+          <?= h($business_client['personal_first_name'] . ' ' . $business_client['personal_last_name']) ?>
         </div>
         <div>
           <strong>Cargo:</strong> <?= h($business_client['business_position']) ?>
@@ -239,7 +241,8 @@ if (is_admin() || is_operator()) {
   </div>
 
   <!-- Sección de Gráficos Mejorada -->
-  <div class="charts-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 20px; margin-top: 20px;">
+  <div class="charts-grid"
+    style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 20px; margin-top: 20px;">
 
     <!-- Gráfico 1: Cantidad de Ítems por Categoría -->
     <div class="card">
@@ -262,10 +265,10 @@ if (is_admin() || is_operator()) {
 
     <!-- Botones adicionales según rol -->
     <?php if (is_admin() || is_operator()): ?>
-    <a class="button secondary" href="movements.php?user_id=<?= $target_user_id ?>">
-      Ver Movimientos
-    </a>
-    
+      <a class="button secondary" href="movements.php?user_id=<?= $target_user_id ?>">
+        Ver Movimientos
+      </a>
+
       <a class="button ghost" href="users.php">Gestionar Usuarios</a>
     <?php endif; ?>
 
