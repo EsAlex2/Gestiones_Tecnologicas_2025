@@ -2,8 +2,8 @@
 // config/config.php
 define('DB_HOST', 'localhost');
 define('DB_NAME', 'inventario_v1');
-define('DB_USER', 'root');
-define('DB_PASS', 'qwerty2801**');
+define('DB_USER', 'admin_sql');
+define('DB_PASS', 'TuPassword');
 define('DB', 'mysql'); // o 'pgsql', 'sqlite', etc.
 
 // URL base (sin la barra final)
