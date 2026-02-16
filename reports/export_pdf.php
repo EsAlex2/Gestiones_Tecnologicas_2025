@@ -3,7 +3,7 @@
 error_reporting(E_ALL & ~E_DEPRECATED & ~E_NOTICE);
 ini_set('display_errors', 0);
 
-// reports/export_pdf.php - Versión mejorada con gráficas y estilo profesional
+// reports/export_pdf.php
 require_once __DIR__ . '/../config/db.php';
 require_once __DIR__ . '/../lib/auth.php';
 require_login();

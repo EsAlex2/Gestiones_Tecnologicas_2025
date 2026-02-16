@@ -191,7 +191,7 @@ ADD FOREIGN KEY (supplier_id) REFERENCES suppliers(id) ON DELETE SET NULL;
 -- Insertar tipos de empresa comunes
 INSERT INTO business_types (name, description) VALUES 
 ('Educacion', 'Gestion Educativa'),
-('Wholesale', 'Gestion en el area de salud');
+('Salud', 'Gestion en el area de salud');
 
 
 -- Insertar categorías por defecto

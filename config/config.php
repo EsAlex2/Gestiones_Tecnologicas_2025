@@ -7,7 +7,7 @@ define('DB_PASS', 'TuPassword');
 define('DB', 'mysql'); // o 'pgsql', 'sqlite', etc.
 
 // URL base (sin la barra final)
-define('BASE_URL', '/Gestiones_Tecnologicas_2025/public/index.php');
+define('BASE_URL', '/Gestiones_Tecnologicas_2025/public');
 
 // SMTP (PHPMailer) - configuracion inicial de envio de correos electronicos, solo para gmail como lo indica el programa
 define('SMTP_HOST', 'smtp.gmail.com');

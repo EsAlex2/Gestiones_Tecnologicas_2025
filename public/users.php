@@ -165,7 +165,7 @@ $users = $pdo->query($query)->fetchAll();
   <?php endif; ?>
 
   <!-- Lista de usuarios -->
-  <div class="card-body" style="margin-top:30px;">
+  <div class="card-body">
     <h3>Lista de Usuarios</h3>
     <table class="table">
       <thead>
@@ -175,8 +175,7 @@ $users = $pdo->query($query)->fetchAll();
           <th>Nombres</th>
           <th>Teléfono</th>
           <th>Email</th>
-          <th>Rol</th>
-          <th>Registro</th>
+          <th>Rol</th>  
           <th>Acciones</th>
         </tr>
       </thead>
@@ -196,7 +195,6 @@ $users = $pdo->query($query)->fetchAll();
                 <?= get_user_role_name($user['role']) ?>
               </span>
             </td>
-            <td><?= h($user['created_at']) ?></td>
             <td>
               <details>
                 <summary class="button ghost">Editar</summary>
