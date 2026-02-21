@@ -245,7 +245,7 @@ if (is_admin() || is_operator()) {
         var nameInputs = $('input[name="q"]');
         nameInputs.on('input', function () {
             var value = $(this).val();
-            var cleanValue = value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ0-9]/g, '');
+            var cleanValue = value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ0-9]/g, ' ');
             if (value !== cleanValue) {
                 $(this).val(cleanValue);
             }
