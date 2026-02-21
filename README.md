@@ -48,7 +48,7 @@ El sistema implementa políticas estrictas para garantizar la integridad de la i
 | Categorías | Bloqueo de borrado si tiene ítems | Evitar registros huérfanos en la base de datos. |
 | Sesiones | require_login() en cada cabecera | Prevenir acceso no autorizado por URL directa. |
 
-🚀 Guía de Despliegue Rápido
+# 🚀 Guía de Despliegue Rápido
 
 ## Requisitos Previos
 
@@ -58,7 +58,7 @@ El sistema implementa políticas estrictas para garantizar la integridad de la i
 
    - MySQL 5.7+ o MariaDB
 
-# Pasos de Instalación
+## Pasos de Instalación
 
    1. Base de Datos:
     Importa el esquema inicial. El sistema requiere tablas para users, items, categories, suppliers y business_clients.
