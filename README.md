@@ -27,6 +27,25 @@ Ubicado en dashboard.php, ofrece un resumen visual del estado del inventario.
 
 ![alt text](<dashboard admin.png>)
 
+2. Gestión de Clientes Empresariales (business_clients.php)
+
+Un módulo especializado para el sector B2B que permite:
+
+   - Vincular usuarios del sistema con empresas específicas.
+
+   - Registrar datos fiscales (DNI/RUT), cargos jerárquicos y contactos corporativos.
+
+   - Filtrado de clientes por tipo de industria o sector.
+
+🔐 Seguridad y Reglas de Validación
+
+El sistema implementa políticas estrictas para garantizar la integridad de la información:
+
+| Campo | Regla de Validación | Motivo |
+| :--- | :---: | ---: |
+| Email, Celda 1 | Fila 1, Celda 2 | Fila 1, Celda 3 |
+| Fila 2, Celda 1 | Fila 2, Celda 2 | Fila 2, Celda 3 |
+
 
 
 
