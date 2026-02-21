@@ -43,35 +43,41 @@ El sistema implementa políticas estrictas para garantizar la integridad de la i
 
 | Campo | Regla de Validación | Motivo |
 | :--- | :---: | ---: |
-| Email, Celda 1 | Fila 1, Celda 2 | Fila 1, Celda 3 |
-| Fila 2, Celda 1 | Fila 2, Celda 2 | Fila 2, Celda 3 |
+| Email | Debe terminar en @gmail.com | Política de estandarización corporativa. |
+| Password | Entre 8 y 16 caracteres | Equilibrio entre usabilidad y fuerza bruta. |
+| Categorías | Bloqueo de borrado si tiene ítems | Evitar registros huérfanos en la base de datos. |
+| Sesiones | require_login() en cada cabecera | Prevenir acceso no autorizado por URL directa. |
 
+🚀 Guía de Despliegue Rápido
 
+## Requisitos Previos
 
+   - PHP >= 8.0
 
+   - Servidor Web (Apache/Nginx)
 
+   - MySQL 5.7+ o MariaDB
 
+# Pasos de Instalación
 
-# Inventario v1 (PHP + MySQL) - Con recuperación por correo
+   1. Base de Datos:
+    Importa el esquema inicial. El sistema requiere tablas para users, items, categories, suppliers y business_clients.
 
-**Novedades v1**
-- Login con username o email.
-- Registro extendido: username, nombres, apellidos, teléfono.
-- Recuperación de contraseña vía correo (token temporal).
-- Clientes CRUD añadido.
-- Movimientos pueden asociarse a proveedor o cliente.
-- Configura SMTP en `config/config.php` y usa PHPMailer para envío real.
+   2. Configuración de Conexión:
+    Asegúrate de que el archivo config/db.php apunte a tu instancia de base de datos local o remota.
 
-## Configurar envío de correos (PHPMailer)
-1. Desde la raíz del proyecto (donde está `composer.json` si lo creas) instala PHPMailer:
-   ```bash
-   composer require phpmailer/phpmailer
-   ```
-   Esto generará `vendor/` con el autoloader que usan las páginas de recuperación.
-2. Edita `config/config.php` y ajusta `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `SMTP_FROM`.
-3. En entornos locales puedes probar sin SMTP: el sistema guardará el token y mostrará un enlace de prueba.
+   3. Primer Usuario:
+    Utiliza el módulo signup.php para crear el primer administrador. El sistema detectará automáticamente si es el primer registro para otorgar privilegios elevados si es necesario.
 
-## Importante
-- Ejecuta `sql/schema.sql` en tu base de datos para crear las nuevas tablas.
-- Ajusta `config/config.php` según tu entorno.
-- Accede a `http://localhost/inventario_v1/public`
+📁 Estructura de Archivos Clave
+
+   - _layout_top.php: Contiene el menú dinámico que cambia según el rol del usuario conectado.
+
+   - users.php: Interfaz para que Administradores gestionen el personal y sus roles.
+
+   - categories.php: CRUD de categorías con validación de duplicados.
+
+### Desarrollado para: 
+Gestiones Tecnológicas S.A. Versión: 1.0.4
+
+### Licencia: Propietaria - Todos los derechos reservados.
