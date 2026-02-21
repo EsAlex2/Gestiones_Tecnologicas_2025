@@ -25,7 +25,7 @@ Ubicado en dashboard.php, ofrece un resumen visual del estado del inventario.
 
    - Métricas Rápidas: Contador de ítems totales y valorización del inventario.
 
-![Dashboard_Principal] (Gestiones_Tecnologicas_2025/assest/images/dashboard_admin.png)
+![alt text](<dashboard admin.png>)
 
 
 
