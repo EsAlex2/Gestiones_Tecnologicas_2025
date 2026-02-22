@@ -83,7 +83,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <!-- Selector de rol -->
         <select class="input" name="role" required>
           <option value="">-- Selecciona tu rol --</option>
-          <option value="<?=ROLE_ANALYST?>">Analista</option>
           <option value="<?=ROLE_OPERATOR?>">Supervisor</option>
           <option value="<?=ROLE_ADMIN?>">Administrador</option>
         </select>
