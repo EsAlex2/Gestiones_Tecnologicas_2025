@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if ($role === ROLE_ADMIN || $role === ROLE_OPERATOR) {
     $admin_check = $pdo->query("SELECT id FROM users WHERE role IN ('".ROLE_ADMIN."','".ROLE_OPERATOR."') LIMIT 1");
     if ($admin_check->fetch()) {
-      redirect_with("/signup.php", "Solo el primer usuario puede registrarse como administrador/operador. Use el rol Cliente.", "danger");
+      redirect_with("/signup.php", "Solo el primer usuario puede registrarse como administrador/operador. ", "danger");
     }
   }
 
