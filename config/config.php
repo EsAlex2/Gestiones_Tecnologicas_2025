@@ -1,10 +1,11 @@
 <?php
 // config/config.php
 define('DB_HOST', 'localhost');
-define('DB_NAME', 'inventario_v1');
-define('DB_USER', 'admin_sql');
-define('DB_PASS', 'TuPassword');
-define('DB', 'mysql'); // o 'pgsql', 'sqlite', etc.
+define('DB_NAME', 'inventario_db');
+define('DB_USER', 'admin_db');
+define('DB_PASS', 'qwerty2801**');
+define('DB_PORT', '3306');
+define('DB', 'pgsql'); // o 'pgsql', 'sqlite', etc.
 
 // URL base (sin la barra final)
 define('BASE_URL', '/Gestiones_Tecnologicas_2025/public');

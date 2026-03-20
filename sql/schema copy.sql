@@ -1,5 +1,5 @@
 -- sql/schema.sql
-CREATE DATABASE IF NOT EXISTS inventario_v1 
+CREATE DATABASE IF NOT EXISTS inventario_db
 CHARACTER SET utf8mb4 
 COLLATE utf8mb4_general_ci;
 USE inventario_v1;
