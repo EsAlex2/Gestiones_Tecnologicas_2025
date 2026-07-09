@@ -1,14 +1,14 @@
 <?php
 // config/config.php
-define('DB_HOST', 'localhost');
-define('DB_NAME', 'inventario_db');
-define('DB_USER', 'admin_db');
-define('DB_PASS', 'qwerty2801**');
-define('DB_PORT', '3306');
-define('DB', 'pgsql'); // o 'pgsql', 'sqlite', etc.
+define('DB_HOST', getenv('DB_HOST') ?: 'localhost');
+define('DB_NAME', getenv('DB_NAME') ?: 'inventario_db');
+define('DB_USER', getenv('DB_USER') ?: 'admin_db');
+define('DB_PASS', getenv('DB_PASS') ?: 'admin123');
+define('DB_PORT', getenv('DB_PORT') ?: '3306');
+define('DB', 'mysql'); // o 'pgsql', 'sqlite', etc.
 
 // URL base (sin la barra final)
-define('BASE_URL', '/Gestiones_Tecnologicas_2025/public');
+define('BASE_URL', getenv('BASE_URL') !== false ? getenv('BASE_URL') : '/Gestiones_Tecnologicas_2025/public');
 
 // SMTP (PHPMailer) - configuracion inicial de envio de correos electronicos, solo para gmail como lo indica el programa
 define('SMTP_HOST', 'smtp.gmail.com');

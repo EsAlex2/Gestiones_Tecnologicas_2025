@@ -2,7 +2,7 @@
 CREATE DATABASE IF NOT EXISTS inventario_db
 CHARACTER SET utf8mb4 
 COLLATE utf8mb4_general_ci;
-USE inventario_v1;
+USE inventario_db;
 
 -- Usuarios (con rol, username y teléfono)
 CREATE TABLE IF NOT EXISTS users (
@@ -139,8 +139,8 @@ CREATE TABLE IF NOT EXISTS business_clients (
 
 
 -- índices 
-CREATE INDEX IF NOT EXISTS idx_categories_name ON categories(name);
-CREATE INDEX IF NOT EXISTS idx_suppliers_name ON suppliers(name);
+CREATE INDEX idx_categories_name ON categories(name);
+CREATE INDEX idx_suppliers_name ON suppliers(name);
 
 -- Crear índices para mejor performance en consultas multi-usuario
 CREATE INDEX  idx_items_user_id ON items(user_id);

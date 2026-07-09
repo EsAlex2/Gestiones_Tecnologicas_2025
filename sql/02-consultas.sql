@@ -1,5 +1,5 @@
 
---insertar equipos del iuti
+-- insertar equipos del iuti
 insert ignore into items (id, user_id, sku, name, description, quantity, category_id, supplier_id) 
 values
 (1,	1,	'IUTI-DIRNAC-002',	'equipo 01', 	'Interl Core I3-2120 3.30 ghz	8GB	500GB SSD	Windows 10',	1,	1,	1),

@@ -1,5 +1,6 @@
 <?php
 // public/_layout_top.php
+ob_start();
 require_once __DIR__ . '/../config/db.php';
 require_once __DIR__ . '/../lib/auth.php';
 require_once __DIR__ . '/../lib/utils.php';
