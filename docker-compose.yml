@@ -4,7 +4,7 @@ services:
   app:
     build: .
     ports:
-      - "80:80"
+      - "5000:80"
     volumes:
       - .:/var/www/html
     environment:
@@ -14,6 +14,7 @@ services:
       - DB_PASS=admin123
       - DB_PORT=3306
       - BASE_URL=/public
+      - LIBMYSQL_ENABLE_CLEARTEXT_PLUGIN=1
     depends_on:
       - db
 
